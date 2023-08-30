@@ -14,7 +14,7 @@ import re
 import string
 
 # from sklearn import preprocessing
-
+# It is maybe useless ?????????
 
 import nltk
 nltk.download('omw-1.4')
@@ -33,24 +33,39 @@ for word in inrae_dictio:
 
 
 
-# import oqlassif.Variables as var
+#import multiclass_cascade_classifier.Variables as var
+# It is useless because I don't have any brand id here
 
 
-csv_in = "C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final.csv"
+
+# ################## Tests ####################
+csv_in = "C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data2/merged_final.csv"
 X = get_dataframe(csv_in)
 
 
-columns_text_pre = ["Denomination_de_vente", "Nom", "Ingredient"]
-columns_binary_pre = ["Code_produit", "Secteur", "Famille", "Denomination_de_vente", "Nom", "Conservation"]
-columns_ingredient_pre = "Ingredient"
-X = CleanColumns(X, columns_text_pre, columns_binary_pre, columns_ingredient_pre)
-
-
-columns_text = ["Denomination_de_vente", "Nom", "Conservation"]
-columns_binary=["Code_produit", "Secteur", "Famille"]
+columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
+columns_binary=["Conservation"]
 columns_frozen=[]
-CleanDataFrame(X, True,True,True,True,True,columns_text,columns_binary,columns_frozen)
+columns_ingredient_pre = "Ingredient"
+X = CleanColumns(X, 
+                 columns_text,
+                 columns_binary_pre = "Nom",
+                 columns_ingredient_pre = "Ingredient")
 
+
+columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
+columns_binary=["Conservation"]
+columns_frozen=[]
+X = CleanDataFrame(X, 
+                   True,
+                   True,
+                   True,
+                   True,
+                   True,
+                   columns_text,
+                   columns_binary,
+                   columns_frozen)
+# ################## Tests ####################
 
 
 def remove_colon(list):
@@ -70,11 +85,11 @@ def remove_punctuation(text):
 
 
 def CleanColumns(X,
-               columns_text_pre = [],
-               columns_binary_pre = [],
+               columns_text = [],
+               columns_binary_pre = "Nom",
                columns_ingredient_pre = "Ingredient"
                 ):
-    for column in columns_text_pre:
+    for column in columns_text:
         X[column] = X[column].str.split().map(lambda x:remove_colon(x))
         X[column] = X[column].str.replace(r"\s\(.*\)", "", regex=True)
         X[column] = X[column].str.replace(r"\s\(.*\)\s", " ", regex=True)
@@ -86,7 +101,7 @@ def CleanColumns(X,
         X[column] = X[column].apply(lambda x : x.replace('*',' '))
         X[column]= X[column].apply(lambda x:remove_punctuation(x))
 
-    X = X.groupby(columns_binary_pre)[columns_ingredient_pre].agg(lambda col: ' '.join(col)).reset_index(name=columns_ingredient_pre)
+    X = X.groupby(["Code_produit", "Secteur", "Famille", "Nom", "Denomination_de_vente", "Conservation"])[columns_ingredient_pre].agg(lambda col: ' '.join(col)).reset_index(name=columns_ingredient_pre)
     return X
 
     
@@ -141,6 +156,7 @@ def CleanDataFrame(X,
     #Parcourir chaque produit
     for index, row in X.iterrows():
         new_row = []
+        new_row = list(row[["Code_produit", "Secteur", "Famille"]])
         
         #Parcourir chaque variable de chaque produit
         for text in row[columns_text]:
@@ -181,6 +197,7 @@ def CleanDataFrame(X,
             if getstemmer:
                 ps = PorterStemmer()
                 words=[ps.stem(word) for word in words]
+            
 
             new_row.append(' '.join(words))
          
@@ -188,7 +205,7 @@ def CleanDataFrame(X,
         #label_row = [words for words in row[columns_binary]]
         data_out.append(new_row + label_row)
         
-    return pd.DataFrame(data_out, columns=columns_text + columns_binary, index=X.index)
+    return pd.DataFrame(data_out, columns=["Code_produit", "Secteur", "Famille"] + columns_text + columns_binary, index=X.index)
 
 
 
@@ -201,6 +218,8 @@ class DataFrameNormalizer(BaseEstimator, TransformerMixin):
                  removedigit=False,
                  getstemmer=False,
                  getlemmatisation=False,
+                 columns_binary_pre="Nom",
+                 columns_ingredient_pre="Ingredient",
                  columns_text=[],
                  columns_binary=[],
                  columns_frozen=[]
@@ -218,7 +237,11 @@ class DataFrameNormalizer(BaseEstimator, TransformerMixin):
     def transform(self, X, **transform_params):
         # Nettoyage du texte
         X=X.copy() # pour conserver le fichier d'origine
-        return CleanDataFrame(X,lowercase=self.lowercase,
+        new_data = CleanColumns(X,
+               columns_text=self.columns_text,
+               columns_binary_pre="Nom",
+               columns_ingredient_pre="Ingredient")
+        return CleanDataFrame(new_data,lowercase=self.lowercase,
                             getstemmer=self.getstemmer,
                             removestopwords=self.removestopwords,
                             getlemmatisation=self.getlemmatisation,
@@ -226,6 +249,9 @@ class DataFrameNormalizer(BaseEstimator, TransformerMixin):
                             columns_text=self.columns_text,
                             columns_binary=self.columns_binary,
                             columns_frozen=self.columns_frozen)
+
+
+# I don't understand this part with the fit and fit_transform ??????
 
     def fit(self, X, y=None, **fit_params):
         return self
@@ -249,3 +275,4 @@ class DataFrameNormalizer(BaseEstimator, TransformerMixin):
         for parameter, value in parameters.items():
             setattr(self,parameter,value)
         return self    
+    

@@ -11,6 +11,14 @@ import pandas as pd
 
 
 
+
+################## Tests ####################
+# csv_in = "C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final.csv"
+# X = get_dataframe(csv_in)
+################## Tests ####################
+
+
+
 def csv2data(csv_in, N=None):
     """
     Transforme le contenu du fichier csv csv_in en un data set
