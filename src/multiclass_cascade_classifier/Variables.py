@@ -26,6 +26,7 @@ ingredient = "Ingredient"
 
 # Champs (combination)
 
+columns = [id_produit, id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
 column_index = [id_produit]
 columns_all= [id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
 column_X_all = [libel, denomination_vente, id_mode_conservation, ingredient]
@@ -48,7 +49,7 @@ columns_bin = [id_mode_conservation]
 
 lowercase = True
 removestopwords = True
-removedigit = False
+removedigit = True
 getstemmer = True
 getlemmatisation = True
 

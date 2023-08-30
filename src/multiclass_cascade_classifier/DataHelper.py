@@ -40,7 +40,7 @@ def csv2data(csv_in, N=None):
     #Ouverture du fichier
     with open(csv_in, 'rt') as csvfile:
         #Lecture du fichier
-        rd = csv.reader(csvfile, delimiter=',', quotechar='"')
+        rd = csv.reader(csvfile, delimiter=';', quotechar='"')
         #next(rd)  # skip the header row
         for row in rd:
             if len(row):
