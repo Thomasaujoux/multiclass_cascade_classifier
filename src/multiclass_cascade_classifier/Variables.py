@@ -25,13 +25,15 @@ ingredient = "Ingredient"
 
 
 # Champs (combination)
-
+columns_group_pre = [id_produit, id_secteur, id_famille, libel, denomination_vente, id_mode_conservation]
+columns_ingredient_pre = [ingredient]
 columns = [id_produit, id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
 column_index = [id_produit]
 columns_all= [id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
 column_X_all = [libel, denomination_vente, id_mode_conservation, ingredient]
 columns_X = [libel, denomination_vente, id_mode_conservation, ingredient]
-
+columns_X_id = [id_produit, libel, denomination_vente, id_mode_conservation, ingredient]
+columns_Y = [id_produit, id_secteur, id_famille]
 # Binary features value
 
 binary_features = {
@@ -42,7 +44,7 @@ columns_label = [id_secteur, id_famille]
 columns_label_all  = [id_secteur, id_famille, predicted_secteur, predicted_famille]
 columns_text = [libel, denomination_vente, ingredient]
 columns_bin = [id_mode_conservation]
-#columns_frozen = [id_marque]
+columns_frozen = []
 
 
 ### Prétraitement

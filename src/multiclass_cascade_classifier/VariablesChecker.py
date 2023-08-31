@@ -174,34 +174,34 @@ def create_folder(folder_path):
     
     return folder_path
 
-# def check_test_size(test_size):
-#     """
-#     Checks test size.
+def check_test_size(test_size):
+    """
+    Checks test size.
 
-#     Parameters
-#     ----------
-#     test_size : Integer
-#         Size of test set (for the split).
+    Parameters
+    ----------
+    test_size : Integer
+        Size of test set (for the split).
 
-#     Raises
-#     ------
-#     ValueError
-#         If test size value isn't valid.
+    Raises
+    ------
+    ValueError
+        If test size value isn't valid.
 
-#     Returns
-#     -------
-#     test_size : Integer
-#         Valid value.
+    Returns
+    -------
+    test_size : Integer
+        Valid value.
 
-#     """
+    """
     
-#     if not test_size:
-#         raise ValueError("Test size cannot be None.")
+    if not test_size:
+        raise ValueError("Test size cannot be None.")
     
-#     if not 0 <= test_size <= 1:
-#         raise ValueError("Test size is out of bound: %f" % test_size)
+    if not 0 <= test_size <= 1:
+        raise ValueError("Test size is out of bound: %f" % test_size)
         
-#     return test_size
+    return test_size
 
 # def checks_nFamilies(n_families):
 #     """

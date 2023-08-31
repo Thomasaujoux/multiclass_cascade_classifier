@@ -8,19 +8,19 @@ Data training related functions
 
 from pathlib import Path
 
-import oqlassif.Variables as var
-from oqlassif.FeaturesManipulator import features_truncate
+import Variables as var
+from FeaturesManipulator import features_truncate
 
 
 
-# ################## Tests ####################
-id_secteur = "Secteur"
-id_famille = "Famille"
+# # ################## Tests ####################
+# id_secteur = "Secteur"
+# id_famille = "Famille"
 
-from pathlib import Path
-logjournal = Path('my_text_file')
+# from pathlib import Path
 
-# ################## Tests ####################
+
+# # ################## Tests ####################
 
 
 

@@ -18,7 +18,7 @@ from sklearn.ensemble import RandomForestClassifier
 # from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import GridSearchCV
 
-import multiclass_cascade_classifier.Variables as var
+import Variables as var
 
 classifiers = {
     var.SVM: SVC,
@@ -67,6 +67,7 @@ def read_clf_yaml(clf_yaml):
         clf.set_params(probability=var.probabilityValue)
     
     return clf
+
 
 def write_clf_yaml(clf):
     """

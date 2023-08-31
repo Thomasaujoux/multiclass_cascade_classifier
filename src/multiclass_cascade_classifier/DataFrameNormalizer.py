@@ -33,39 +33,39 @@ for word in inrae_dictio:
 
 
 
-#import multiclass_cascade_classifier.Variables as var
-# It is useless because I don't have any brand id here
+import Variables as var
 
 
 
-# ################## Tests ####################
-csv_in = "C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data2/merged_final.csv"
-X = get_dataframe(csv_in)
+# # ################## Tests ####################
+# csv_in = "C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final.csv"
+# X = get_dataframe(csv_in)
 
 
-columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
-columns_binary=["Conservation"]
-columns_frozen=[]
-columns_ingredient_pre = "Ingredient"
-X = CleanColumns(X, 
-                 columns_text,
-                 columns_binary_pre = "Nom",
-                 columns_ingredient_pre = "Ingredient")
+# columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
+# columns_binary=["Conservation"]
+# columns_frozen=[]
+# columns_ingredient_pre = "Ingredient"
+# X = CleanColumns(X, 
+#                  columns_text,
+#                  columns_binary_pre = "Nom",
+#                  columns_ingredient_pre = "Ingredient")
 
 
-columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
-columns_binary=["Conservation"]
-columns_frozen=[]
-X = CleanDataFrame(X, 
-                   True,
-                   True,
-                   True,
-                   True,
-                   True,
-                   columns_text,
-                   columns_binary,
-                   columns_frozen)
-# ################## Tests ####################
+# columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
+# columns_binary=["Conservation"]
+# columns_frozen=[]
+# X = CleanDataFrame(X, 
+#                    True,
+#                    True,
+#                    True,
+#                    True,
+#                    True,
+#                    columns_text,
+#                    columns_binary,
+#                    columns_frozen)
+# # ################## Tests ####################
+
 
 
 def remove_colon(list):
@@ -84,10 +84,9 @@ def remove_punctuation(text):
     return punctuationfree #storing the puntuation free text
 
 
+
 def CleanColumns(X,
-               columns_text = [],
-               columns_binary_pre = "Nom",
-               columns_ingredient_pre = "Ingredient"
+               columns_text = []
                 ):
     for column in columns_text:
         X[column] = X[column].str.split().map(lambda x:remove_colon(x))
@@ -95,13 +94,15 @@ def CleanColumns(X,
         X[column] = X[column].str.replace(r"\s\(.*\)\s", " ", regex=True)
         X[column] = X[column].str.replace(r"\(.*\)", "", regex=True)
         X[column] = X[column].str.replace(r"\(.*", "", regex=True)
-        X[column] = X[column].apply(lambda x: x.rstrip())
-        X[column] = X[column].apply(lambda x: x.lstrip())
         X[column] = X[column].apply(lambda x : x.replace('_',' '))
         X[column] = X[column].apply(lambda x : x.replace('*',' '))
+        X[column] = X[column].apply(lambda x: x.rstrip())
+        X[column] = X[column].apply(lambda x: x.lstrip())
+
         X[column]= X[column].apply(lambda x:remove_punctuation(x))
 
-    X = X.groupby(["Code_produit", "Secteur", "Famille", "Nom", "Denomination_de_vente", "Conservation"])[columns_ingredient_pre].agg(lambda col: ' '.join(col)).reset_index(name=columns_ingredient_pre)
+
+    X = X.groupby(var.columns_group_pre)[var.columns_ingredient_pre[0]].agg(lambda col: ' '.join(col)).reset_index(name=var.columns_ingredient_pre[0])
     return X
 
     
@@ -156,7 +157,7 @@ def CleanDataFrame(X,
     #Parcourir chaque produit
     for index, row in X.iterrows():
         new_row = []
-        new_row = list(row[["Code_produit", "Secteur", "Famille"]])
+        new_row = list(row[var.columns_Y])
         
         #Parcourir chaque variable de chaque produit
         for text in row[columns_text]:
@@ -205,7 +206,7 @@ def CleanDataFrame(X,
         #label_row = [words for words in row[columns_binary]]
         data_out.append(new_row + label_row)
         
-    return pd.DataFrame(data_out, columns=["Code_produit", "Secteur", "Famille"] + columns_text + columns_binary, index=X.index)
+    return pd.DataFrame(data_out, columns=var.columns_Y + columns_text + columns_binary, index=X.index)
 
 
 
@@ -239,8 +240,7 @@ class DataFrameNormalizer(BaseEstimator, TransformerMixin):
         X=X.copy() # pour conserver le fichier d'origine
         new_data = CleanColumns(X,
                columns_text=self.columns_text,
-               columns_binary_pre="Nom",
-               columns_ingredient_pre="Ingredient")
+               )
         return CleanDataFrame(new_data,lowercase=self.lowercase,
                             getstemmer=self.getstemmer,
                             removestopwords=self.removestopwords,

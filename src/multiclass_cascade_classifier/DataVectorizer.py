@@ -10,39 +10,39 @@ import pandas as pd
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-import multiclass_cascade_classifier.Variables as var
+import Variables as var
 
 
 
-# ################## Tests ####################
-csv_in = "C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final.csv"
-X = get_dataframe(csv_in)
+# # ################## Tests ####################
+# csv_in = "C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final.csv"
+# X = get_dataframe(csv_in)
 
 
-columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
-columns_binary=["Conservation"]
-columns_frozen=[]
-columns_ingredient_pre = "Ingredient"
-X = CleanColumns(X, columns_text,
-                 columns_binary_pre = "Nom",
-                 columns_ingredient_pre = "Ingredient")
+# columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
+# columns_binary=["Conservation"]
+# columns_frozen=[]
+# columns_ingredient_pre = "Ingredient"
+# X = CleanColumns(X, columns_text,
+#                  columns_binary_pre = "Nom",
+#                  columns_ingredient_pre = "Ingredient")
 
 
-columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
-columns_binary=["Conservation"]
-columns_frozen=[]
-X = CleanDataFrame(X, True,True,True,True,True,columns_text,columns_binary,columns_frozen)
+# columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
+# columns_binary=["Conservation"]
+# columns_frozen=[]
+# X = CleanDataFrame(X, True,True,True,True,True,columns_text,columns_binary,columns_frozen)
 
-columns_text=["Denomination_de_vente", "Nom", "Ingredient"]
-columns_binary=["Conservation"]
-id_mode_conservation = "Conservation"
-binary_features = {
-    id_mode_conservation: ["frais", "ambiant", "surgele"],
-}
+# columns_text=["Denomination_de_vente", "Nom", "Ingredient"]
+# columns_binary=["Conservation"]
+# id_mode_conservation = "Conservation"
+# binary_features = {
+#     id_mode_conservation: ["frais", "ambiant", "surgele"],
+# }
 
 
-X.to_csv("C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final2.csv")
-# ################## Tests ####################
+# X.to_csv("C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final2.csv")
+# # ################## Tests ####################
 
 
 
@@ -93,16 +93,13 @@ class DataVectorizer():
             X_vect_binary[column_bin] = X_vect_bin
 
         # Checking that all binary features are vectorized
-        #for column_bin in var.binary_features:
-        for column_bin in binary_features:
+        for column_bin in var.binary_features:
             if column_bin in self.columns_binary:
                 x_features = X_vect_binary[column_bin].copy(deep=True)
-                #for feature in var.binary_features[column_bin]:
-                for feature in binary_features[column_bin]:
+                for feature in var.binary_features[column_bin]:
                     if feature not in x_features.columns.to_list():
                         x_features[feature] = 0
-            #X_vect_binary[column_bin] = x_features[var.binary_features[column_bin]]
-            X_vect_binary[column_bin] = x_features[binary_features[column_bin]]
+            X_vect_binary[column_bin] = x_features[var.binary_features[column_bin]]
             
         data_vect = []
         for index, row in X_vect_text.iterrows():
