@@ -41,7 +41,7 @@ columns_Y = [id_produit, id_secteur, id_famille]
 # Binary features value
 
 binary_features = {
-    id_mode_conservation: ["frai", "ambiant", "surgele"],
+    id_mode_conservation: ["frais", "ambiant", "surgele"],
 }
 
 columns_label = [id_secteur, id_famille]
@@ -92,7 +92,7 @@ hyperParamsGrid = {
     "kernel": ["linear"],
     "C": [1],
     "gamma": [0.1],
-    "probability": [True,],
+    #"probability": [False,],
     },
     RF: {
         "max_features": ["log2"],
@@ -100,7 +100,7 @@ hyperParamsGrid = {
     },
 }
 cv = 2
-n_jobs = 10
+n_jobs = -1
 
 training_date = "training_date"
 training_size = "training_size"

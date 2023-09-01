@@ -11,11 +11,11 @@ Handles CSV files
 ### Imports ###
 
 import Variables as var
-from Scripts import check_split, check_train, check_classifiers_train
+from Scripts import check_split, check_train, check_test, check_classifiers_train, check_classifiers_test
 from Scripts import load_data, prepare_data, save_data, save_classifiers
 from Scripts import prepro
 from Scripts import select_hyperparameters, save_hyperparameters
-from Scripts import split_train_test, train_data
+from Scripts import split_train_test, train_data#, test_data, test_metrics
 
 from LogJournal import LogJournal
 
@@ -90,7 +90,7 @@ def train(csv_train_in, models_folder, hyper_sector_file=None, hyper_family_per_
 
     ## Checking variables
     csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, log_folder = check_train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, log_folder)
-
+    print(1)
     # Log Journal
     log_journal = LogJournal(log_folder, "log") if log_folder else None
 
@@ -111,14 +111,19 @@ def train(csv_train_in, models_folder, hyper_sector_file=None, hyper_family_per_
     ## Loading data
     df_train = load_data(csv_train_in, index_column=None, columns=var.columns, logjournal=log_folder)
     training_size = df_train.shape[0]
-    
+    print(2)
     ## Preparing data
     y_train = df_train[var.columns_label]
+    print(3)
     sectors_diff = check_classifiers_train(y_train, hyper_family_per_sector_file, force)
+    print(4)
     X_train = prepare_data(df_train, log_journal)
-    
+    print(5)
+    print(X_train, 90)
+    print(y_train, 100)
     ## Select hyperparameters
     clf_sector, clfs_family = select_hyperparameters(X_train, y_train, hyper_sector_file, hyper_family_per_sector_file, sectors_diff, n_jobs, log_journal)
+    print(6)
     save_hyperparameters(models_folder, clf_sector, clfs_family, training_size, log_journal)
     
     ## Train Data
@@ -139,3 +144,50 @@ hyper_sector_file = None
 hyper_family_per_sector_file = None
 train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, force=True, n_jobs=var.n_jobs, log_folder=None)
 # # ################## Tests ####################
+
+
+
+# def test(csv_test_in, models_folder, metrics_folder, n_families=None, force=True):
+#     """
+#     Tests classifiers on data test set (csv_test_in) and saves metrics into metrics_folder.
+
+#     Parameters
+#     ----------
+#     csv_test_in : String
+#         Path to data test set.
+#     models_folder : String
+#         Path to models folder (where the joblib files are saved).
+#     metrics_folder : String
+#         Path to metrics folder (where the metrics files will be saved).
+#     n_families : Integer, optional
+#         Number of families to predict. The default is None.
+#     force : Boolean, optional
+#         If True, continues if there are labels in the data set that cannot be predicted. The default is True.
+
+#     Returns
+#     -------
+#     None.
+
+#     """
+    
+#     ## Checking variables
+#     csv_test_in, models_folder, metrics_folder, n_families = check_test(csv_test_in, models_folder, metrics_folder, n_families)
+    
+#     ## Loading data
+#     df_test = load_data(csv_test_in, index_column=None, columns=var.columns)
+    
+#     ## Preparing data
+#     y_test = df_test[var.columns_label]
+#     sectors_diff, families_diff = check_classifiers_test(y_test, models_folder, force)
+#     X_test = prepare_data(df_test)
+    
+#     df_tested = test_data(X_test, y_test, models_folder, n_families)
+    
+#     for c_index in range(len(var.columns_X)):
+#         df_tested.insert(c_index, var.columns_X[c_index], df_test[var.columns_X[c_index]])
+    
+#     test_metrics(df_tested, metrics_folder, n_families)
+    
+#     # Saving data
+#     csv_predict_out = metrics_folder + "predictions.csv"
+#     save_data(csv_predict_out, df_tested)

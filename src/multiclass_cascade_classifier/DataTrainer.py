@@ -54,7 +54,7 @@ def train_sector_classifier(X, y, clf, logjournal=None):
     
     ## Training
     clf.fit(X, y_sector)
-    
+    print(clf)
     return clf
     
 def train_families_per_sector_classifier(X, y, clfs, logjournal=None):
@@ -105,6 +105,6 @@ def train_families_per_sector_classifier(X, y, clfs, logjournal=None):
         
         # Replacing the untrained classifier by the trained one
         clfs[sector] = clf
-        
+    print(clfs)
     return clfs
 

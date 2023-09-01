@@ -264,7 +264,9 @@ def hyper_cross_val(X, y, n_jobs, logjournal=None):
         Classifier initialized with best hyperparameters (not trained).
 
     """
+    print("you are here now")
     clf_best = select_hyperparams(X, y, n_jobs)
+    print("you are here now2")
     clf_type = clf_best[var.classifierType]
     clf_hyperparams = clf_best[var.classifierHyperParams]
     clf_out = classifiers[clf_type](**clf_hyperparams)
@@ -294,6 +296,7 @@ def hyper_cross_val_sector(X, y, n_jobs, logjournal=None):
     if logjournal:
         logjournal.write_text("\tHyperparameters selection for sector classifier.")
     y_sector = y[var.id_secteur]
+    print(y_sector)
     clf_sector = hyper_cross_val(X, y_sector, n_jobs, logjournal)
 
     return clf_sector
@@ -403,9 +406,11 @@ def select_hyperparams(X, y, n_jobs=var.n_jobs, cv=var.cv, logjournal=None):
     
     # GridSearch for SVM
     svm = SVC()
-    clf_svm = GridSearchCV(svm, var.hyperParamsGrid[var.SVM], n_jobs=n_jobs)
+    print(var.hyperParamsGrid[var.SVM], n_jobs)
+    clf_svm = GridSearchCV(svm, var.hyperParamsGrid[var.SVM], verbose=3, cv=2, n_jobs=n_jobs)
+    print(X,y)
     clf_svm.fit(X, y)
-    
+    print("at least one fit")
     # GridSearch for Random Forest
     rf = RandomForestClassifier()
     clf_rf = GridSearchCV(rf, var.hyperParamsGrid[var.RF], n_jobs=n_jobs)
@@ -427,6 +432,7 @@ def select_hyperparams(X, y, n_jobs=var.n_jobs, cv=var.cv, logjournal=None):
             var.classifierType: var.RF,
             var.classifierHyperParams: clf_rf.best_params_,
         }
+    print(best_clf)
         
     # Old code
     # hyperParams = { }
@@ -485,11 +491,14 @@ def select_hyperparameters_sector(X, y, yaml_sector_in=None, n_jobs=var.n_jobs, 
     # If there's a yaml file containing the hyperparameters
     # The alforithm reads it
     if yaml_sector_in:
+        print("yaml_sector_in")
         if logjournal:
+            print("yaml_sector_in/logjournal")
             logjournal.write_text("Reading parameters for sector classifier in yaml file.")
         clf = read_sector_hyperparams(yaml_sector_in)
     # If not, it searches for new hyperparameters
     else:
+        print("yaml_sector_not_in")
         if logjournal:
             logjournal.write_text("Selecting parameters for sector classifier.")
         clf = hyper_cross_val_sector(X, y, n_jobs, logjournal)

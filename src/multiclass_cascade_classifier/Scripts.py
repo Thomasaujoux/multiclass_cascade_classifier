@@ -31,6 +31,10 @@ from DataTrainer import train_sector_classifier, train_families_per_sector_class
 from HyperSelector import write_sector_hyperparam, write_family_per_sector_hyperparams
 from ClassifierHelper import save_sector_classifier, save_all_family_classifier
 
+# from MetricsGenerator import generate_general_stats
+# from MetricsGenerator import generate_confusion_matrix_sector, generate_confusion_matrixes_family
+# from MetricsGenerator import generate_classification_report_sector, generate_classification_reports_family
+
 
 
 
@@ -112,6 +116,41 @@ def check_train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per
     return csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, log_folder
 
 
+def check_test(csv_test_in, models_folder, metrics_folder, n_families):
+    """
+    Checks if the arguments given by the user for the testing are valid.
+
+    Parameters
+    ----------
+    csv_test_in : String
+        Path to the file that contains the test data set.
+    models_folder : String
+        Path to the folder that contains the trained classifiers.
+    metrics_folder : String
+        Path to the folder that will contain the generated statistics.
+    n_families : Int
+        Number of families to predict.
+
+    Returns
+    -------
+    csv_test_in : String
+        Updated path to the file that contains the test data set.
+    models_folder : String
+        Updated path to the folder that contains the trained classifiers.
+    metrics_folder : String
+        Updated path to the folder that will contain the generated statistics.
+    n_families : Int
+        Updated number of families to predict.
+
+    """
+    print("Initialization...")
+    csv_test_in = check_csv(csv_test_in, True)
+    models_folder = check_folder(models_folder)
+    metrics_folder = create_folder(metrics_folder)
+    models_folder = check_trained_classifiers(models_folder)
+    n_families = checks_nFamilies(n_families)
+    
+    return csv_test_in, models_folder, metrics_folder, n_families
 
 def check_classifiers_train(y, hyper_family_per_sector_file, force):
     """
@@ -142,6 +181,42 @@ def check_classifiers_train(y, hyper_family_per_sector_file, force):
                 sys.exit("Exit")
         
         return sectors_diff
+
+
+def check_classifiers_test(y, models_folder, force):
+    """
+    Checks if all labels in test set can be predicted.
+
+    Parameters
+    ----------
+    y : pd.DataFrame
+        Labels.
+    models_folder : String
+        Path to models folder.
+    force : Boolean
+        If True, forces testing when some labels cannot be predicted.
+
+    Returns
+    -------
+    sectors_diff : List<String>
+        List of sectors that cannot be predicted.
+    families_diff : List<String>
+        List of families that cannot be predicted.
+
+    """
+    sectors_diff, families_diff = check_classifiers_test_diff(y, models_folder)
+    
+    if sectors_diff:
+        print("Warning: Some sectors cannot be predicted : %s" % str(sectors_diff))
+            
+    if families_diff:
+        print("Warning: Some families cannot be predicted : %s" % str(families_diff))
+            
+    if not force and not (sectors_diff and families_diff):
+        print("Use option --force to force testing.")
+        sys.exit("Exit")
+        
+    return sectors_diff, families_diff
 
 ### data ###
 
@@ -520,3 +595,49 @@ def save_classifiers(models_folder, clf_sector, clfs_family, logjournal=None):
 # print(new2[0], 2222222)
 # print(new2[1], 3333333)
 # # ################## Tests ####################
+
+
+
+
+def test_metrics(df_pred, metrics_folder, n_families):
+    """
+    Generates metrics for data test set and its predicted labels.
+    Saves metrics into a metrics folder.
+    
+    WARNING: No matter the number of predicted families, it will generate metrics for the first one.
+
+    Parameters
+    ----------
+    df_pred : pd.DataFrame
+        Predicted data set.
+    metrics_folder : String
+        Path to metrics folder.
+    n_families : Integer
+        Number of predicted families.
+
+    Returns
+    -------
+    None.
+
+    """
+    
+    if n_families:
+        df_pred = df_pred.rename(columns={
+            "%s %s" % (var.prediction, var.secteur): var.predicted_secteur,
+            "%s %s %d" % (var.prediction, var.famille, 1): var.predicted_famille,
+            })
+        y_pred = df_pred[var.columns_label_all]
+            
+    else:
+        y_pred = df_pred[var.columns_label_all]
+        
+    # General stats
+    generate_general_stats(df_pred, metrics_folder)
+    
+    # Confusion matrixes
+    generate_confusion_matrix_sector(y_pred, metrics_folder)
+    generate_confusion_matrixes_family(y_pred, metrics_folder)
+    
+    # Classification reports
+    generate_classification_report_sector(y_pred, metrics_folder)
+    generate_classification_reports_family(y_pred, metrics_folder)
