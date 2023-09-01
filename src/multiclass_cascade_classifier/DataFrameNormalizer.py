@@ -3,7 +3,7 @@ Module DataFrameNormalizer
 
 DataFrame normalization class
 
-@author: Thomas Aujoux
+@author: ThomasAujoux
 """
 
 
@@ -11,26 +11,17 @@ DataFrame normalization class
 
 import pandas as pd
 import re
-import string
 
-# from sklearn import preprocessing
-# It is maybe useless ?????????
 
 import nltk
-nltk.download('omw-1.4')
-from nltk.stem import WordNetLemmatizer
-from nltk.stem import PorterStemmer 
-from nltk.corpus import stopwords
-from nltk import word_tokenize
+from nltk.stem.snowball import SnowballStemmer
+stemmer = SnowballStemmer(language='french')
 
-nltk.download('wordnet')
-nltk.download('stopwords')
-nltk.download('punkt')
-stop_words_list = list(set(stopwords.words('french')) )
+stopwords = nltk.corpus.stopwords.words('french')
+stop_words_list = list(set(stopwords) )
 inrae_dictio = ["", "a", "mg", "cm", "g", "gl", "ml", "k", "el", "ed", "gr" "k" "mi" "st" "the" , "kg", "dl", "l", "cl", "about", "ad", "al", "and", "in", "it", "too"]
 for word in inrae_dictio:
     stop_words_list.append(word)
-
 
 
 import Variables as var
@@ -67,45 +58,26 @@ import Variables as var
 # # ################## Tests ####################
 
 
+#defining function for tokenization
+def tokenization(text):
+    tokens = text.split(sep = ' ')
+    return tokens
 
-def remove_colon(list):
-    n = len(list)
-    i = 1
-    colonfree = list[0]
-    while i < n and list[i] != ":":
-        colonfree = colonfree + " " + list[i]
-        i = i + 1
-    return colonfree
+#defining the function to remove stopwords from tokenized text
+def remove_stopwords(text):
+    output= [i for i in text if i not in stopwords]
+    return output
 
+def preprocess_text_stemm(df, column):
+    for i in range(len(df[column])):
+        if type(df[column][i]) != list :
+            continue
+        for j in range(len(df[column][i])):
+            df[column][i][j] = stemmer.stem(df[column][i][j])
+        while("" in df[column][i]):
+            df[column][i].remove("")
 
-def remove_punctuation(text):
-    list_punctuation = '!"#$%&\'()+,-./;:<=>?@[\\]^_`{|}~1234567890'
-    punctuationfree="".join([i for i in text if i not in list_punctuation])
-    return punctuationfree #storing the puntuation free text
-
-
-
-def CleanColumns(X,
-               columns_text = []
-                ):
-    for column in columns_text:
-        X[column] = X[column].str.split().map(lambda x:remove_colon(x))
-        X[column] = X[column].str.replace(r"\s\(.*\)", "", regex=True)
-        X[column] = X[column].str.replace(r"\s\(.*\)\s", " ", regex=True)
-        X[column] = X[column].str.replace(r"\(.*\)", "", regex=True)
-        X[column] = X[column].str.replace(r"\(.*", "", regex=True)
-        X[column] = X[column].apply(lambda x : x.replace('_',' '))
-        X[column] = X[column].apply(lambda x : x.replace('*',' '))
-        X[column] = X[column].apply(lambda x: x.rstrip())
-        X[column] = X[column].apply(lambda x: x.lstrip())
-
-        X[column]= X[column].apply(lambda x:remove_punctuation(x))
-
-
-    X = X.groupby(var.columns_group_pre)[var.columns_ingredient_pre[0]].agg(lambda col: ' '.join(col)).reset_index(name=var.columns_ingredient_pre[0])
-    return X
-
-    
+    return df
 
 def CleanDataFrame(X, 
                lowercase=False,
@@ -147,67 +119,22 @@ def CleanDataFrame(X,
         Données prétraitées.
 
     """
-    
-    data_out = []
-    
-    # labels_binary_list = []
-    # for column_binary in columns_binary:
-    #     labels_binary_list.append([column_binary, X[column_binary].unique().tolist()])
+    for column in columns_text:
+        print(column)
+        if lowercase:
+            X[column] = X[column].apply(lambda x: x.lower())
 
-    #Parcourir chaque produit
-    for index, row in X.iterrows():
-        new_row = []
-        new_row = list(row[var.columns_Y])
+        X[column] = X[column].apply(lambda x: tokenization(x))
+
+        if removestopwords:
+            X[column] = X[column].apply(lambda x: remove_stopwords(x))
         
-        #Parcourir chaque variable de chaque produit
-        for text in row[columns_text]:
-            
-            # suppression de tous les caractères uniques
-            if removedigit:
-                text = re.sub(r'\s+[a-zA-Z]\s+', ' ', text)
-                text = re.sub(r'(?:^| )\w(?:$| )', ' ', text)
-            # substitution des espaces multiples par un seul espace
-            text = re.sub(r'\s+', ' ', text, flags=re.I)
+        if getstemmer:
+            X = preprocess_text_stemm(X, column)
+        if len(X.loc[X[column].isnull()])>0:
+            X.loc[X[column].isnull()] = X.loc[X[column].isnull()].apply(lambda x: [""])
 
-            # decoupage en mots
-            tokens = text.split(sep = ' ')
-            if lowercase:
-                  tokens = [token.lower() for token in tokens]
-
-            # suppression ponctuation
-            table = str.maketrans('', '', string.punctuation)
-            words = [token.translate(table) for token in tokens]
-
-            # suppression des tokens non alphabetique ou numerique
-            words = [word for word in words if word.isalnum()]
-
-            # suppression des tokens numerique
-            if removedigit:
-                words = [word for word in words if not word.isdigit()]
-
-            # suppression des stopwords
-            if removestopwords:
-                words = [word for word in words if not word in stop_words_list]
-
-            # lemmatisation
-            if getlemmatisation:
-                lemmatizer=WordNetLemmatizer()
-                words = [lemmatizer.lemmatize(word)for word in words]
-
-            # racinisation
-            if getstemmer:
-                ps = PorterStemmer()
-                words=[ps.stem(word) for word in words]
-            
-
-            new_row.append(' '.join(words))
-         
-        label_row = row[columns_binary].to_list()
-        #label_row = [words for words in row[columns_binary]]
-        data_out.append(new_row + label_row)
-        
-    return pd.DataFrame(data_out, columns=var.columns_Y + columns_text + columns_binary, index=X.index)
-
+    return X
 
 
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -219,8 +146,6 @@ class DataFrameNormalizer(BaseEstimator, TransformerMixin):
                  removedigit=False,
                  getstemmer=False,
                  getlemmatisation=False,
-                 columns_binary_pre="Nom",
-                 columns_ingredient_pre="Ingredient",
                  columns_text=[],
                  columns_binary=[],
                  columns_frozen=[]
@@ -238,10 +163,7 @@ class DataFrameNormalizer(BaseEstimator, TransformerMixin):
     def transform(self, X, **transform_params):
         # Nettoyage du texte
         X=X.copy() # pour conserver le fichier d'origine
-        new_data = CleanColumns(X,
-               columns_text=self.columns_text,
-               )
-        return CleanDataFrame(new_data,lowercase=self.lowercase,
+        return CleanDataFrame(X,lowercase=self.lowercase,
                             getstemmer=self.getstemmer,
                             removestopwords=self.removestopwords,
                             getlemmatisation=self.getlemmatisation,

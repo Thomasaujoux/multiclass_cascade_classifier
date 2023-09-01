@@ -10,7 +10,7 @@ import os
 import glob
 import yaml
 
-# import oqlassif.Variables as var
+import Variables as var
 # from oqlassif.HyperSelector import get_sectors_from_family_yaml
 # from oqlassif.ClassifierHelper import hashing, get_sector_classifier, get_all_families_classifier
 
@@ -203,253 +203,253 @@ def check_test_size(test_size):
         
     return test_size
 
-# def checks_nFamilies(n_families):
-#     """
-#     Checks number of families to predict.
+def checks_nFamilies(n_families):
+    """
+    Checks number of families to predict.
 
-#     Parameters
-#     ----------
-#     n_families : Integer
-#         Number of families to predict.
+    Parameters
+    ----------
+    n_families : Integer
+        Number of families to predict.
 
-#     Raises
-#     ------
-#     ValueError
-#         If n_families value isn't valid.
+    Raises
+    ------
+    ValueError
+        If n_families value isn't valid.
 
-#     Returns
-#     -------
-#     n_families : Integer
-#         Valid number of families.
+    Returns
+    -------
+    n_families : Integer
+        Valid number of families.
 
-#     """
+    """
     
-#     if not n_families:
-#         raise ValueError("Number of families to predict cannot be None.")
+    if not n_families:
+        raise ValueError("Number of families to predict cannot be None.")
     
-#     if not isinstance(n_families, int):
-#         raise ValueError("Number of families to predict should be an integer : %s." % n_families)
+    if not isinstance(n_families, int):
+        raise ValueError("Number of families to predict should be an integer : %s." % n_families)
         
-#     if not n_families > 0:
-#         raise ValueError("Number of families to predict should not be zero: %i." % n_families)
+    if not n_families > 0:
+        raise ValueError("Number of families to predict should not be zero: %i." % n_families)
         
-#     return n_families
+    return n_families
 
-# def check_trained_classifiers(models_folder):
-#     """
-#     Checks classifiers in the folder model.
-#     Checks that the sectors predicted by the sector classifier all have a family classifier.
-#     (Checks that the sector classifier correspond to the family classifiers.)
+def check_trained_classifiers(models_folder):
+    """
+    Checks classifiers in the folder model.
+    Checks that the sectors predicted by the sector classifier all have a family classifier.
+    (Checks that the sector classifier correspond to the family classifiers.)
 
-#     Parameters
-#     ----------
-#     models_folder : String
-#         Path to models folder.
+    Parameters
+    ----------
+    models_folder : String
+        Path to models folder.
 
-#     Raises
-#     ------
-#     FileNotFoundError
-#         If classifiers aren't valid.
+    Raises
+    ------
+    FileNotFoundError
+        If classifiers aren't valid.
 
-#     Returns
-#     -------
-#     models_folder : String
-#         Path to valid models folder.
+    Returns
+    -------
+    models_folder : String
+        Path to valid models folder.
 
-#     """
+    """
     
-#     if not models_folder.endswith("/"):
-#         models_folder += "/"
+    if not models_folder.endswith("/"):
+        models_folder += "/"
     
-#     clf_sector = get_sector_classifier(models_folder)
+    clf_sector = get_sector_classifier(models_folder)
     
-#     sectors_clf = clf_sector.classes_
+    sectors_clf = clf_sector.classes_
     
-#     sectors_diff = []
-#     for sector in sectors_clf:
-#         joblib_path = models_folder + hashing(sector) + ".joblib"
-#         if not os.path.exists(joblib_path):
-#             sectors_diff.append(sector)
+    sectors_diff = []
+    for sector in sectors_clf:
+        joblib_path = models_folder + hashing(sector) + ".joblib"
+        if not os.path.exists(joblib_path):
+            sectors_diff.append(sector)
             
-#     if sectors_diff:
-#         raise FileNotFoundError("Some sectors don't have a classifier: %s." % sectors_diff)
+    if sectors_diff:
+        raise FileNotFoundError("Some sectors don't have a classifier: %s." % sectors_diff)
         
-#     return models_folder
+    return models_folder
 
-# def check_yaml_sector(yaml_sector_in):
-#     """
-#     Checks the content of the yaml file for the sector classifier.
+def check_yaml_sector(yaml_sector_in):
+    """
+    Checks the content of the yaml file for the sector classifier.
 
-#     Parameters
-#     ----------
-#     yaml_sector_in : String
-#         Path to yaml file.
+    Parameters
+    ----------
+    yaml_sector_in : String
+        Path to yaml file.
 
-#     Raises
-#     ------
-#     ValueError
-#         If the classifier's type is unknown.
+    Raises
+    ------
+    ValueError
+        If the classifier's type is unknown.
 
-#     Returns
-#     -------
-#     yaml_sector_in: String
-#         Valid path.
+    Returns
+    -------
+    yaml_sector_in: String
+        Valid path.
 
-#     """
-#     if yaml_sector_in:
-#         with open(yaml_sector_in) as f:
-#             clf_yaml = yaml.load(f, Loader=yaml.FullLoader)
-#             ## Case: the classifier filled in the yaml isn't known
-#             clf_type = clf_yaml[var.classifierType]
-#             if clf_type not in [var.SVM, var.RF]:
-#                 raise ValueError("Classifier type should be " + " or ".join([var.SVM, var.RF]))
+    """
+    if yaml_sector_in:
+        with open(yaml_sector_in) as f:
+            clf_yaml = yaml.load(f, Loader=yaml.FullLoader)
+            ## Case: the classifier filled in the yaml isn't known
+            clf_type = clf_yaml[var.classifierType]
+            if clf_type not in [var.SVM, var.RF]:
+                raise ValueError("Classifier type should be " + " or ".join([var.SVM, var.RF]))
             
-#     return yaml_sector_in
+    return yaml_sector_in
 
-# def check_yaml_families(yaml_families_in):
-#     """
-#     Checks the content of the yaml file for the family classifiers.
+def check_yaml_families(yaml_families_in):
+    """
+    Checks the content of the yaml file for the family classifiers.
 
-#     Parameters
-#     ----------
-#     yaml_families_in : String
-#         Path to yaml file.
+    Parameters
+    ----------
+    yaml_families_in : String
+        Path to yaml file.
 
-#     Raises
-#     ------
-#     ValueError
-#         If one classifier's type is unknown.
+    Raises
+    ------
+    ValueError
+        If one classifier's type is unknown.
 
-#     Returns
-#     -------
-#     yaml_families_in: String
-#         Valid path.
+    Returns
+    -------
+    yaml_families_in: String
+        Valid path.
 
-#     """
-#     if yaml_families_in:
-#         with open(yaml_families_in) as f:
-#             clf_list_yaml = yaml.load(f, Loader=yaml.FullLoader)
-#             for clf_yaml in clf_list_yaml:
-#                 ## Case: the classifier filled in the yaml isn't known
-#                 clf_type = clf_yaml[var.classifierType]
-#                 if clf_type not in [var.SVM, var.RF]:
-#                     raise ValueError("Classifier type should be " + " or ".join([var.SVM, var.RF]))
+    """
+    if yaml_families_in:
+        with open(yaml_families_in) as f:
+            clf_list_yaml = yaml.load(f, Loader=yaml.FullLoader)
+            for clf_yaml in clf_list_yaml:
+                ## Case: the classifier filled in the yaml isn't known
+                clf_type = clf_yaml[var.classifierType]
+                if clf_type not in [var.SVM, var.RF]:
+                    raise ValueError("Classifier type should be " + " or ".join([var.SVM, var.RF]))
                 
-#     return yaml_families_in
+    return yaml_families_in
         
 
-# def check_classifiers_train_sectors(y, yaml_families_in):
-#     """
-#     Checks if all sectors in the train set appears in the yaml file.
+def check_classifiers_train_sectors(y, yaml_families_in):
+    """
+    Checks if all sectors in the train set appears in the yaml file.
 
-#     Parameters
-#     ----------
-#     y : pd.DataFrame
-#         Labels.
-#     yaml_families_in : String
-#         Path to yaml file.
+    Parameters
+    ----------
+    y : pd.DataFrame
+        Labels.
+    yaml_families_in : String
+        Path to yaml file.
 
-#     Returns
-#     -------
-#     sectors_diff : List<String>
-#         List of sectors that are in the training set but do not appear in the yaml file.
+    Returns
+    -------
+    sectors_diff : List<String>
+        List of sectors that are in the training set but do not appear in the yaml file.
 
-#     """
+    """
     
-#     y_sector = sorted(y[var.id_secteur].unique())
-#     yaml_sector = get_sectors_from_family_yaml(yaml_families_in)
+    y_sector = sorted(y[var.id_secteur].unique())
+    yaml_sector = get_sectors_from_family_yaml(yaml_families_in)
     
-#     sectors_diff = [sector if sector not in yaml_sector else None for sector in y_sector]
-#     sectors_diff = list(filter(None, sectors_diff))
+    sectors_diff = [sector if sector not in yaml_sector else None for sector in y_sector]
+    sectors_diff = list(filter(None, sectors_diff))
     
-#     return sectors_diff
+    return sectors_diff
 
-# def check_classifiers_test_diff(y, models_folder):
-#     """
-#     Checks if all the sector and family in the test set can be predicted.
+def check_classifiers_test_diff(y, models_folder):
+    """
+    Checks if all the sector and family in the test set can be predicted.
 
-#     Parameters
-#     ----------
-#     y : pd.DataFrame
-#         Labels.
-#     models_folder : String
-#         Path to models folder.
+    Parameters
+    ----------
+    y : pd.DataFrame
+        Labels.
+    models_folder : String
+        Path to models folder.
 
-#     Returns
-#     -------
-#     sectors_diff : List<String>
-#         List of sectors that are in the test set but cannot be predicted by the classifiers..
-#     families_diff : List<String>
-#         List of families that are in the test set but cannot be predicted by the classifiers..
+    Returns
+    -------
+    sectors_diff : List<String>
+        List of sectors that are in the test set but cannot be predicted by the classifiers..
+    families_diff : List<String>
+        List of families that are in the test set but cannot be predicted by the classifiers..
 
-#     """
-#     sectors_diff = check_classifers_test_sector(y, models_folder)
-#     families_diff = check_classifers_test_family(y, models_folder)
+    """
+    sectors_diff = check_classifers_test_sector(y, models_folder)
+    families_diff = check_classifers_test_family(y, models_folder)
     
-#     return sectors_diff, families_diff                                                 
+    return sectors_diff, families_diff                                                 
     
-# def check_classifers_test_sector(y, models_folder):
-#     """
-#     Checks if all the sector in the test set can be predicted.
+def check_classifers_test_sector(y, models_folder):
+    """
+    Checks if all the sector in the test set can be predicted.
 
-#     Parameters
-#     ----------
-#     y : pd.DataFrame
-#         Labels.
-#     models_folder : String
-#         Path to models folder.
+    Parameters
+    ----------
+    y : pd.DataFrame
+        Labels.
+    models_folder : String
+        Path to models folder.
 
-#     Returns
-#     -------
-#     sectors_diff : List<String>
-#         List of sectors that are in the test set but cannot be predicted by the classifiers.
+    Returns
+    -------
+    sectors_diff : List<String>
+        List of sectors that are in the test set but cannot be predicted by the classifiers.
 
-#     """
+    """
     
-#     sectors = sorted(y[var.id_secteur].unique())
+    sectors = sorted(y[var.id_secteur].unique())
 
-#     sectors_diff = []
-#     for sector in sectors:
-#         joblib_path = models_folder + hashing(sector) + ".joblib"
-#         if not os.path.exists(joblib_path):
-#             sectors_diff.append(sector)
+    sectors_diff = []
+    for sector in sectors:
+        joblib_path = models_folder + hashing(sector) + ".joblib"
+        if not os.path.exists(joblib_path):
+            sectors_diff.append(sector)
             
-#     return sectors_diff
+    return sectors_diff
 
-# def check_classifers_test_family(y, models_folder):
-#     """
-#     Checks if all the sector in the test set can be predicted.
+def check_classifers_test_family(y, models_folder):
+    """
+    Checks if all the sector in the test set can be predicted.
 
-#     Parameters
-#     ----------
-#     y : pd.DataFrame
-#         Labels.
-#     models_folder : String
-#         Path to models folder.
+    Parameters
+    ----------
+    y : pd.DataFrame
+        Labels.
+    models_folder : String
+        Path to models folder.
 
-#     Returns
-#     -------
-#     sectors_diff : List<String>
-#         List of families that are in the test set but cannot be predicted by the classifiers.
+    Returns
+    -------
+    sectors_diff : List<String>
+        List of families that are in the test set but cannot be predicted by the classifiers.
 
-#     """
+    """
     
-#     sectors = sorted(y[var.id_secteur].unique())
-#     families = { }
-#     for sector in sectors:
-#         families[sector] = sorted(y[y[var.id_secteur] == sector][var.id_famille].unique())
+    sectors = sorted(y[var.id_secteur].unique())
+    families = { }
+    for sector in sectors:
+        families[sector] = sorted(y[y[var.id_secteur] == sector][var.id_famille].unique())
         
-#     clfs_family = get_all_families_classifier(models_folder, sectors)
+    clfs_family = get_all_families_classifier(models_folder, sectors)
 
-#     families_diff = []
-#     for sector in sectors:
-#         if not clfs_family[sector]:
-#             for family in families[sector]:
-#                 families_diff.append(family)
-#         else:
-#             families_pred = clfs_family[sector].classes_
-#             families_diff_res = [family if family not in families_pred else None for family in families[sector]]
-#             families_diff_res = list(filter(None, families_diff_res))
-#             families_diff += families_diff_res
+    families_diff = []
+    for sector in sectors:
+        if not clfs_family[sector]:
+            for family in families[sector]:
+                families_diff.append(family)
+        else:
+            families_pred = clfs_family[sector].classes_
+            families_diff_res = [family if family not in families_pred else None for family in families[sector]]
+            families_diff_res = list(filter(None, families_diff_res))
+            families_diff += families_diff_res
             
-#     return families_diff
+    return families_diff

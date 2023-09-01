@@ -15,18 +15,21 @@ id_famille = "Famille"
 predicted_famille = "predicted_famille"
 id_secteur = "Secteur"
 predicted_secteur = "predicted_secteur"
-#id_marque = "id_marque"
+#id_marque = "id_marque" # We don't take into account the brand anymore
 libel = "Nom"
 denomination_vente = "Denomination_de_vente"
-#libel_precision = "precision_produit"
+#libel_precision = "precision_produit" # There isn't this feature anymore
 id_mode_conservation = "Conservation"
 ingredient = "Ingredient"
 
 
 
 # Champs (combination)
+# For Preprocessing
 columns_group_pre = [id_produit, id_secteur, id_famille, libel, denomination_vente, id_mode_conservation]
 columns_ingredient_pre = [ingredient]
+columns_text_pre = [libel, denomination_vente, id_mode_conservation]
+
 columns = [id_produit, id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
 column_index = [id_produit]
 columns_all= [id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
@@ -34,6 +37,7 @@ column_X_all = [libel, denomination_vente, id_mode_conservation, ingredient]
 columns_X = [libel, denomination_vente, id_mode_conservation, ingredient]
 columns_X_id = [id_produit, libel, denomination_vente, id_mode_conservation, ingredient]
 columns_Y = [id_produit, id_secteur, id_famille]
+
 # Binary features value
 
 binary_features = {
@@ -82,20 +86,20 @@ famille = "famille"
 SVM = "SVM"
 RF = "RandomForest"
 
+
 hyperParamsGrid = {
     SVM: {
-    "kernel": ["linear", "rbf", "sigmoid"],
-    "C": [0.1, 1, 10, 100, 1000],
-    "gamma": [10, 1, 0.1, 0.01, 0.001, 0.0001],
+    "kernel": ["linear"],
+    "C": [1],
+    "gamma": [0.1],
     "probability": [True,],
     },
     RF: {
-        "max_features": ["sqrt", "log2"],
-        "criterion": ["gini", "entropy"],
+        "max_features": ["log2"],
+        "criterion": ["entropy"],
     },
 }
-
-cv = 5
+cv = 2
 n_jobs = 10
 
 training_date = "training_date"

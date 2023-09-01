@@ -18,16 +18,18 @@ import sys
 
 import Variables as var
 
-from VariablesChecker import check_csv, check_yaml#, check_folder, create_folder, check_yaml_sector, check_yaml_families
-from VariablesChecker import check_test_size#, checks_nFamilies, check_trained_classifiers, check_classifiers_train_sectors, check_classifiers_test_diff
+from VariablesChecker import check_csv, check_yaml, check_folder, create_folder, check_yaml_sector, check_yaml_families
+from VariablesChecker import check_test_size, checks_nFamilies, check_trained_classifiers, check_classifiers_train_sectors, check_classifiers_test_diff
 from DataHelper import get_dataframe
+from PreProcessing import PreProcessing
 
 from DataFrameNormalizer import DataFrameNormalizer
 from DataVectorizer import DataVectorizer
 
 from HyperSelector import select_hyperparameters_sector, select_hyperparameters_family
 from DataTrainer import train_sector_classifier, train_families_per_sector_classifier
-
+from HyperSelector import write_sector_hyperparam, write_family_per_sector_hyperparams
+from ClassifierHelper import save_sector_classifier, save_all_family_classifier
 
 
 
@@ -70,6 +72,77 @@ def check_split(csv_in, csv_out_train, csv_out_test, test_size):
     return csv_in, csv_out_train, csv_out_test, test_size
 
 
+def check_train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, log_folder):
+    """
+    Checks if the arguments given by the user for the training are valid.
+
+    Parameters
+    ----------
+    csv_train_in : String
+        Path to the file that contains the train data set.
+    models_folder : String
+        Path to the folder that will contain the trained classifiers and the selected hyperparameters.
+    hyper_sector_file : String
+        Path to the file that contains the hyperparameters for the sector classifier.
+    hyper_family_per_sector_file : String
+        Path to the file that contains the hyperparameters for the family classifiers.
+
+    Returns
+    -------
+    csv_train_in : String
+        Updated path to the file that contains the train data set.
+    models_folder : String
+        Updated path to the folder that will contain the trained classifiers and the selected hyperparameters.
+    hyper_sector_file : String
+        Updated path to the file that contains the hyperparameters for the sector classifier.
+    hyper_family_per_sector_file : String
+        Updated path to the file that contains the hyperparameters for the family classifiers.
+
+    """
+    print("Initialization...")
+    csv_train_in = check_csv(csv_train_in, True)
+    models_folder = create_folder(models_folder)
+    if log_folder:
+        log_folder = create_folder(log_folder)
+    hyper_sector_file = check_yaml(hyper_sector_file, False)
+    hyper_family_per_sector_file = check_yaml(hyper_family_per_sector_file, False)
+    hyper_sector_file = check_yaml_sector(hyper_sector_file)
+    hyper_family_per_sector_file = check_yaml_families(hyper_family_per_sector_file)
+    
+    return csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, log_folder
+
+
+
+def check_classifiers_train(y, hyper_family_per_sector_file, force):
+    """
+    Checks yaml for training.
+
+    Parameters
+    ----------
+    y : pd.DataFrame
+        Labels.
+    hyper_family_per_sector_file : String
+        Path to yaml file containing hyperparameters.
+    force : Boolean
+        If True, forces training when a sector is missing from the yaml file (it will select the hyperparamters for this sector).
+
+    Returns
+    -------
+    sectors_diff : List<String>
+        List of sectors that are missing from the yaml file.
+
+    """
+    if hyper_family_per_sector_file:
+        sectors_diff = check_classifiers_train_sectors(y, hyper_family_per_sector_file)
+        
+        if sectors_diff:
+            print("Warning: Some sectors aren't present inside the hyperparameters yaml file for the family classification: %s" % str(sectors_diff))
+            if not force:
+                print("Use option --force to force training.")
+                sys.exit("Exit")
+        
+        return sectors_diff
+
 ### data ###
 
 def load_data(csv_in, index_column=None, columns=None, logjournal=None):
@@ -96,7 +169,7 @@ def load_data(csv_in, index_column=None, columns=None, logjournal=None):
         logjournal.write_text("Loading data.")
     
     df_produit = get_dataframe(csv_in)
-    
+
     if index_column:
         if any(item in df_produit.columns.tolist() for item in index_column):
             df_produit.set_index(index_column, inplace=True)
@@ -137,6 +210,34 @@ def save_data(csv_out, df_produit, logjournal=None):
     
     df_produit.to_csv(csv_out, index=True, sep=';')
 
+def prepro(df_data, logjournal):
+    """
+    Prepares data.
+    Pretreatment and vectorization
+
+    Parameters
+    ----------
+    df_data : pd.DataFrame
+        Data set.
+
+    Returns
+    -------
+    X_vect : pd.DataFrame
+        Pretreated and vectorized data set.
+
+    """
+    
+    # Pre-Processing
+    print("PreProcessing...")
+    if logjournal:
+        logjournal.write_text("PreProcessing.")
+    start_time = time.time()
+    df_preprocessing=PreProcessing(columns_text=var.columns_text_pre)
+    df_produit = df_preprocessing.fit_transform(df_data)
+    preprocessing_time = var.time_ % (divmod(time.time() - start_time, 60))
+    print(preprocessing_time)
+    
+    return df_produit
 
 def prepare_data(df_data, logjournal):
     """
@@ -353,6 +454,66 @@ def train_data(X, y, clf_sector, clfs_family, logjournal=None):
     
     return clf_sector_trained, clfs_family_trained
 
+
+
+
+def save_hyperparameters(models_folder, clf_sector, clfs_family, training_size, logjournal=None):
+    """
+    Save selected hyperparameters into yaml files.
+
+    Parameters
+    ----------
+    models_folder : String
+        Path to models folder.
+    clf_sector : Classifier
+        Initialiazed sector classifier.
+    clfs_family : Dict<Classifier>
+        Initialiazed family classifiers
+    training_size : Integer
+        Number of products in training data set.
+
+    Returns
+    -------
+    None.
+
+    """
+
+    if logjournal:
+        logjournal.write_text("Saving hyperparameters files (yaml)")
+
+    yaml_sector_out = models_folder + var.hyper_sector_yaml
+    yaml_families_out = models_folder + var.hyper_families_yaml
+    
+    write_sector_hyperparam(yaml_sector_out, clf_sector, training_size)
+    write_family_per_sector_hyperparams(yaml_families_out, clfs_family)
+
+
+   
+def save_classifiers(models_folder, clf_sector, clfs_family, logjournal=None):
+    """
+    Saves trained classifiers into models folder.
+
+    Parameters
+    ----------
+    models_folder : String
+        Path to models folder.
+    clf_sector : Classifier
+        Trained sector classifier.
+    clfs_family : Dict<Classifier>
+        Trained family classifiers
+
+    Returns
+    -------
+    None.
+
+    """
+    
+    if logjournal:
+        logjournal.write_text("Saving classifiers")
+
+    save_sector_classifier(clf_sector, models_folder)
+    save_all_family_classifier(clfs_family, models_folder)
+        
 
 # # ################## Tests ####################
 # new2 = split_train_test(df_data, 0.2)
