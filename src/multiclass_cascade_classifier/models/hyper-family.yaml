@@ -1,108 +1,21 @@
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Aliments infantiles de diversification
-  type: RandomForest
-- hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
-    class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
-    random_state: null
-    verbose: 0
-    warm_start: false
-  secteur: Aperitifs a croquer
-  type: RandomForest
-- hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
-    class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
-    random_state: null
-    verbose: 0
-    warm_start: false
-  secteur: Barres cerealieres
-  type: RandomForest
-- hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
-    class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
-    random_state: null
-    verbose: 0
-    warm_start: false
-  secteur: Biscuits et gateaux industriels
-  type: RandomForest
-- hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
-    class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
-    random_state: null
-    verbose: 0
-    warm_start: false
-  secteur: Boissons Rafraichissantes Sans Alcool
-  type: RandomForest
+  type: SVM
 - hyperparameters:
     C: 1
     break_ties: false
@@ -119,8 +32,83 @@
     shrinking: true
     tol: 0.001
     verbose: false
-  secteur: Bouillons et potages
+  secteur: Aperitifs a croquer
   type: SVM
+- hyperparameters:
+    C: 1
+    break_ties: false
+    cache_size: 200
+    class_weight: null
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
+    random_state: null
+    shrinking: true
+    tol: 0.001
+    verbose: false
+  secteur: Barres cerealieres
+  type: SVM
+- hyperparameters:
+    C: 1
+    break_ties: false
+    cache_size: 200
+    class_weight: null
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
+    random_state: null
+    shrinking: true
+    tol: 0.001
+    verbose: false
+  secteur: Biscuits et gateaux industriels
+  type: SVM
+- hyperparameters:
+    C: 1
+    break_ties: false
+    cache_size: 200
+    class_weight: null
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
+    random_state: null
+    shrinking: true
+    tol: 0.001
+    verbose: false
+  secteur: Boissons Rafraichissantes Sans Alcool
+  type: SVM
+- hyperparameters:
+    bootstrap: true
+    ccp_alpha: 0.0
+    class_weight: null
+    criterion: entropy
+    max_depth: null
+    max_features: log2
+    max_leaf_nodes: null
+    max_samples: null
+    min_impurity_decrease: 0.0
+    min_samples_leaf: 1
+    min_samples_split: 2
+    min_weight_fraction_leaf: 0.0
+    n_estimators: 100
+    n_jobs: null
+    oob_score: false
+    random_state: null
+    verbose: 0
+    warm_start: false
+  secteur: Bouillons et potages
+  type: RandomForest
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
@@ -206,47 +194,41 @@
   secteur: Chocolat et produits chocolates
   type: RandomForest
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Compotes
-  type: RandomForest
+  type: SVM
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Confiseries
-  type: RandomForest
+  type: SVM
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
@@ -269,47 +251,41 @@
   secteur: Confitures
   type: RandomForest
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Conserves de fruits
-  type: RandomForest
+  type: SVM
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Fromages
-  type: RandomForest
+  type: SVM
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
@@ -332,47 +308,41 @@
   secteur: Glaces et sorbets
   type: RandomForest
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Jus et nectars
-  type: RandomForest
+  type: SVM
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Laits infantiles
-  type: RandomForest
+  type: SVM
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
@@ -437,23 +407,26 @@
   secteur: Plats cuisines ambiants
   type: RandomForest
 - hyperparameters:
-    C: 1
-    break_ties: false
-    cache_size: 200
+    bootstrap: true
+    ccp_alpha: 0.0
     class_weight: null
-    coef0: 0.0
-    decision_function_shape: ovr
-    degree: 3
-    gamma: 0.1
-    kernel: linear
-    max_iter: -1
-    probability: true
+    criterion: entropy
+    max_depth: null
+    max_features: log2
+    max_leaf_nodes: null
+    max_samples: null
+    min_impurity_decrease: 0.0
+    min_samples_leaf: 1
+    min_samples_split: 2
+    min_weight_fraction_leaf: 0.0
+    n_estimators: 100
+    n_jobs: null
+    oob_score: false
     random_state: null
-    shrinking: true
-    tol: 0.001
-    verbose: false
+    verbose: 0
+    warm_start: false
   secteur: Plats cuisines frais
-  type: SVM
+  type: RandomForest
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
@@ -518,68 +491,59 @@
   secteur: Produits laitiers et desserts frais
   type: RandomForest
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Produits traiteurs frais
-  type: RandomForest
+  type: SVM
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Produits transformes a base de pomme de terre
-  type: RandomForest
+  type: SVM
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Sauces chaudes
-  type: RandomForest
+  type: SVM
 - hyperparameters:
     C: 1
     break_ties: false
@@ -599,26 +563,23 @@
   secteur: Sauces condimentaires
   type: SVM
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Sauces condimentaires_RHF
-  type: RandomForest
+  type: SVM
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
@@ -641,44 +602,38 @@
   secteur: Sirops et boissons concentrees a diluer
   type: RandomForest
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Snacking surgele
-  type: RandomForest
+  type: SVM
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
+    C: 1
+    break_ties: false
+    cache_size: 200
     class_weight: null
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: 0.1
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Viennoiseries et desserts surgeles
-  type: RandomForest
+  type: SVM

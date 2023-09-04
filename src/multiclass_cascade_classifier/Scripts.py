@@ -636,10 +636,13 @@ def test_data(X_test, y_test, models_folder, n_families):
     
     # Concatenation with true values
     #print(df_tested, "avant")
+    start_time = time.time()
     df_tested.insert(0, var.id_secteur, y_test[var.id_secteur])
     df_tested.insert(3, var.id_famille, y_test[var.id_famille])
     df_tested.insert(3, "%s %s" % (var.comparaison, var.secteur), df_tested["%s %s" % (var.prediction, var.secteur)] == y_test[var.id_secteur])
     #print(df_tested, "après")
+    print(n_families, "n_families")
+    print(df_tested,"df_tested")
     for n in range(1, n_families + 1):
         res = []
         for index, row in df_tested.iterrows():
@@ -649,7 +652,9 @@ def test_data(X_test, y_test, models_folder, n_families):
                 res.append(None)
         #print(df_tested, "milieu")
         df_tested.insert(7 + 2 * (n - 1), "%s %i" % (var.comparaison, n), res)
-        #print(df_tested, "milieu après")        
+        #print(df_tested, "milieu après")  
+    long_time = var.time_ % (divmod(time.time() - start_time, 60))
+    print(long_time, "c'est bizarrement long")      
     #print(df_tested, "fin")
     return df_tested
 

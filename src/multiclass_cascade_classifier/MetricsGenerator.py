@@ -43,9 +43,9 @@ def generate_general_stats(df_pred, metrics_folder):
     y_pred_family = df_pred[var.predicted_famille]
     
     ## Accuracy for sectors prediction
-    log_journal.write_text("accuracy sector: %f" % metrics.accuracy_score(y_true_sector, y_pred_sector, zero_division=0))
+    log_journal.write_text("accuracy sector: %f" % metrics.accuracy_score(y_true_sector, y_pred_sector))
     ## Accuracy for families prediction
-    log_journal.write_text("accuracy family: %f" % metrics.accuracy_score(y_true_family, y_pred_family, zero_division=0))
+    log_journal.write_text("accuracy family: %f" % metrics.accuracy_score(y_true_family, y_pred_family))
     
     log_journal.close()
 
@@ -144,7 +144,7 @@ def generate_classification_report_sector(y_pred, metrics_folder):
     
     y_true = y_pred[var.id_secteur]
     y_pred = y_pred[var.predicted_secteur]
-    clf = classification_report(y_true, y_pred, output_dict=True, zero_division=0)
+    clf = classification_report(y_true, y_pred, output_dict=True, zero_division=0.0)
     df_clf = pd.DataFrame(clf).transpose()
     df_clf.to_excel(metrics_folder + var.classification_report_sector, index=True, sheet_name=var.confusion_matrix)
     
@@ -172,6 +172,6 @@ def generate_classification_reports_family(y_pred, metrics_folder):
             y_res = y_pred[y_pred[var.id_secteur] == sector]
             y_report_true = y_res[var.id_secteur]
             y_report_pred = y_res[var.predicted_secteur]
-            clf = classification_report(y_report_true, y_report_pred, output_dict=True, zero_division=0)
+            clf = classification_report(y_report_true, y_report_pred, output_dict=True, zero_division=0.0)
             df_clf = pd.DataFrame(clf).transpose()
             df_clf.to_excel(writer_classification_report, index=True, sheet_name=sector[:31])

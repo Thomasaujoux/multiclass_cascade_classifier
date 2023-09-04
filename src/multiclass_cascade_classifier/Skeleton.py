@@ -145,7 +145,9 @@ def train(csv_train_in, models_folder, hyper_sector_file=None, hyper_family_per_
 # train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, force=True, n_jobs=var.n_jobs, log_folder=None)
 # # # ################## Tests ####################
 
-
+import pandas as pd
+from warnings import simplefilter
+simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 def test(csv_test_in, models_folder, metrics_folder, n_families=None, force=True):
     """
@@ -178,7 +180,7 @@ def test(csv_test_in, models_folder, metrics_folder, n_families=None, force=True
 
     # Log Journal
     log_journal = None
-    
+
     ## Preparing data
     y_test = df_test[var.columns_label]
     sectors_diff, families_diff = check_classifiers_test(y_test, models_folder, force)
@@ -186,10 +188,14 @@ def test(csv_test_in, models_folder, metrics_folder, n_families=None, force=True
     
     
     df_tested = test_data(X_test, y_test, models_folder, n_families)
-    
+    a = df_tested
     for c_index in range(len(var.columns_X)):
         df_tested.insert(c_index, var.columns_X[c_index], df_test[var.columns_X[c_index]])
-    
+        a[var.columns_X[c_index]] = df_test[var.columns_X[c_index]]
+    print(a, "a")
+    print(df_tested, "l'autre")
+    diff = df_tested.compare(a)
+    print(diff, "comparaison des diff")
     test_metrics(df_tested, metrics_folder, n_families)
     
     # Saving data

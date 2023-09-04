@@ -70,15 +70,15 @@ class DataVectorizer():
         
     def fit_transform(self, X):
         
-        data_text = []
-        for index, row in X.iterrows(): # Concaténation des variables à vectoriser
-            row_txt = ""
-            for column_txt in self.columns_text:
-                row_txt += str(row[column_txt]) + " "
-            data_text.append(row_txt)
-            
-        data_text_vect = self.TfidfVectorizer_text.fit_transform(data_text).toarray().tolist()
-        
+        X["new"] = ""
+        for columns in self.columns_text:
+            print(X[columns])
+            X["new"] = X["new"] + " " + str(X[columns])
+            X.drop([columns], axis=1)
+        print(X, "changements X")
+        data_text_vect = self.TfidfVectorizer_text.fit_transform(X["new"]).toarray().tolist()
+
+        #print(data_text_vect, "changmeent le reste")
         data_bin_vect = { }
         for column_bin in self.columns_binary:
             data_bin_vect[column_bin] = self.TfidfVectorizer_binary[column_bin].fit_transform(X[column_bin]).toarray().tolist()
