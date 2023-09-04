@@ -15,7 +15,7 @@ from Scripts import check_split, check_train, check_test, check_classifiers_trai
 from Scripts import load_data, prepare_data, save_data, save_classifiers
 from Scripts import prepro
 from Scripts import select_hyperparameters, save_hyperparameters
-from Scripts import split_train_test, train_data#, test_data, test_metrics
+from Scripts import split_train_test, train_data, test_data, test_metrics
 
 from LogJournal import LogJournal
 
@@ -135,59 +135,71 @@ def train(csv_train_in, models_folder, hyper_sector_file=None, hyper_family_per_
 
 
 
+# # # ################## Tests ####################
+# csv_train_in = "./train_test/train_split.csv"
+# models_folder = "./models"
+# hyper_sector_file = "./hyper/hyper_sector.yaml"
+# hyper_family_per_sector_file = "./hyper/hyper_family.yaml"
+# hyper_sector_file = None
+# hyper_family_per_sector_file = None
+# train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, force=True, n_jobs=var.n_jobs, log_folder=None)
+# # # ################## Tests ####################
+
+
+
+def test(csv_test_in, models_folder, metrics_folder, n_families=None, force=True):
+    """
+    Tests classifiers on data test set (csv_test_in) and saves metrics into metrics_folder.
+
+    Parameters
+    ----------
+    csv_test_in : String
+        Path to data test set.
+    models_folder : String
+        Path to models folder (where the joblib files are saved).
+    metrics_folder : String
+        Path to metrics folder (where the metrics files will be saved).
+    n_families : Integer, optional
+        Number of families to predict. The default is None.
+    force : Boolean, optional
+        If True, continues if there are labels in the data set that cannot be predicted. The default is True.
+
+    Returns
+    -------
+    None.
+
+    """
+    
+    ## Checking variables
+    csv_test_in, models_folder, metrics_folder, n_families = check_test(csv_test_in, models_folder, metrics_folder, n_families)
+    
+    ## Loading data
+    df_test = load_data(csv_test_in, index_column=None, columns=var.columns)
+
+    # Log Journal
+    log_journal = None
+    
+    ## Preparing data
+    y_test = df_test[var.columns_label]
+    sectors_diff, families_diff = check_classifiers_test(y_test, models_folder, force)
+    X_test = prepare_data(df_test, log_journal)
+    
+    
+    df_tested = test_data(X_test, y_test, models_folder, n_families)
+    
+    for c_index in range(len(var.columns_X)):
+        df_tested.insert(c_index, var.columns_X[c_index], df_test[var.columns_X[c_index]])
+    
+    test_metrics(df_tested, metrics_folder, n_families)
+    
+    # Saving data
+    csv_predict_out = metrics_folder + "predictions.csv"
+    save_data(csv_predict_out, df_tested)
+
 # # ################## Tests ####################
-csv_train_in = "./train_test/train_split.csv"
-models_folder = "./model"
-hyper_sector_file = "./hyper/hyper_sector.yaml"
-hyper_family_per_sector_file = "./hyper/hyper_family.yaml"
-hyper_sector_file = None
-hyper_family_per_sector_file = None
-train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, force=True, n_jobs=var.n_jobs, log_folder=None)
+csv_test_in = "./train_test/test_split.csv"
+models_folder = "./models"
+metrics_folder = "./metrics"
+n_families = 636
+test(csv_test_in, models_folder, metrics_folder, n_families, force=True)
 # # ################## Tests ####################
-
-
-
-# def test(csv_test_in, models_folder, metrics_folder, n_families=None, force=True):
-#     """
-#     Tests classifiers on data test set (csv_test_in) and saves metrics into metrics_folder.
-
-#     Parameters
-#     ----------
-#     csv_test_in : String
-#         Path to data test set.
-#     models_folder : String
-#         Path to models folder (where the joblib files are saved).
-#     metrics_folder : String
-#         Path to metrics folder (where the metrics files will be saved).
-#     n_families : Integer, optional
-#         Number of families to predict. The default is None.
-#     force : Boolean, optional
-#         If True, continues if there are labels in the data set that cannot be predicted. The default is True.
-
-#     Returns
-#     -------
-#     None.
-
-#     """
-    
-#     ## Checking variables
-#     csv_test_in, models_folder, metrics_folder, n_families = check_test(csv_test_in, models_folder, metrics_folder, n_families)
-    
-#     ## Loading data
-#     df_test = load_data(csv_test_in, index_column=None, columns=var.columns)
-    
-#     ## Preparing data
-#     y_test = df_test[var.columns_label]
-#     sectors_diff, families_diff = check_classifiers_test(y_test, models_folder, force)
-#     X_test = prepare_data(df_test)
-    
-#     df_tested = test_data(X_test, y_test, models_folder, n_families)
-    
-#     for c_index in range(len(var.columns_X)):
-#         df_tested.insert(c_index, var.columns_X[c_index], df_test[var.columns_X[c_index]])
-    
-#     test_metrics(df_tested, metrics_folder, n_families)
-    
-#     # Saving data
-#     csv_predict_out = metrics_folder + "predictions.csv"
-#     save_data(csv_predict_out, df_tested)

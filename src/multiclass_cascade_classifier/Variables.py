@@ -22,6 +22,15 @@ denomination_vente = "Denomination_de_vente"
 id_mode_conservation = "Conservation"
 ingredient = "Ingredient"
 
+# Output
+
+prediction = "prediction"
+proba = "proba"
+comparaison = "comparaison"
+succes = "succes"
+alert = "alerte"
+
+flag = "A vérifier"
 
 
 # Champs (combination)

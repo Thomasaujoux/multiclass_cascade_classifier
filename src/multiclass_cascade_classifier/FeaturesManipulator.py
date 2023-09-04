@@ -73,17 +73,15 @@ def features_intersection(X, features):
     features_to_drop = list(filter(None, features_to_drop))
     
     X_text = X_text.drop(columns=features_to_drop)
-    
+
     for feature in features_text:
         if feature not in X_text.columns.to_list():
-            # feature_column = pd.DataFrame(0, columns=[feature], index=X_text.index)
-            # X_text = pd.concat([X_text, feature_column], axis=1)
-            X_text[feature] = 0
+            feature_column = pd.DataFrame(0, columns=[feature], index=X_text.index)
+            X_text = pd.concat([X_text, feature_column], axis=1)
+            #X_text[feature] = 0
 
     X_text = X_text[features_text]
     
     X_vect = pd.concat([X_text, X_bin], axis=1)
 
     return X_vect
-
-# I don't understand what is the goal is this function ??????

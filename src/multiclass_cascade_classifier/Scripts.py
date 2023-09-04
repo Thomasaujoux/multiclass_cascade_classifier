@@ -31,6 +31,12 @@ from DataTrainer import train_sector_classifier, train_families_per_sector_class
 from HyperSelector import write_sector_hyperparam, write_family_per_sector_hyperparams
 from ClassifierHelper import save_sector_classifier, save_all_family_classifier
 
+from DataPredicter import predict_sectors, predict_families_per_sector_classifier
+
+from MetricsGenerator import generate_general_stats
+from MetricsGenerator import generate_confusion_matrix_sector, generate_confusion_matrixes_family
+from MetricsGenerator import generate_classification_report_sector, generate_classification_reports_family
+
 # from MetricsGenerator import generate_general_stats
 # from MetricsGenerator import generate_confusion_matrix_sector, generate_confusion_matrixes_family
 # from MetricsGenerator import generate_classification_report_sector, generate_classification_reports_family
@@ -589,6 +595,63 @@ def save_classifiers(models_folder, clf_sector, clfs_family, logjournal=None):
     save_sector_classifier(clf_sector, models_folder)
     save_all_family_classifier(clfs_family, models_folder)
         
+        
+def test_data(X_test, y_test, models_folder, n_families):
+    """
+    Tests classifiers in models_folder on data test set.
+
+    Parameters
+    ----------
+    X_test : pd.DataFrame
+        Test set.
+    y_test : pd.DataFrame
+        Labels of test set.
+    models_folder : String
+        Path to models folder.
+    n_families : Integer
+        Number of family to predict.
+
+    Returns
+    -------
+    df_tested : pd.DataFrame
+        Data test set with predicted labels.
+
+    """
+    
+    ## Testing
+    print("Testing...")
+    
+    # Sector
+    print("Sectors...")
+    start_time = time.time()
+    y_sector_pred = predict_sectors(X_test, models_folder)
+    sector_testing_time = var.time_ % (divmod(time.time() - start_time, 60))
+    print(sector_testing_time)
+    
+    print("Families...")
+    start_time = time.time()
+    df_tested = predict_families_per_sector_classifier(X_test, y_sector_pred, models_folder, n_families)
+    family_testing_time = var.time_ % (divmod(time.time() - start_time, 60))
+    print(family_testing_time)
+    
+    # Concatenation with true values
+    #print(df_tested, "avant")
+    df_tested.insert(0, var.id_secteur, y_test[var.id_secteur])
+    df_tested.insert(3, var.id_famille, y_test[var.id_famille])
+    df_tested.insert(3, "%s %s" % (var.comparaison, var.secteur), df_tested["%s %s" % (var.prediction, var.secteur)] == y_test[var.id_secteur])
+    #print(df_tested, "après")
+    for n in range(1, n_families + 1):
+        res = []
+        for index, row in df_tested.iterrows():
+            if row["%s %s %i" % (var.prediction, var.famille,  n)]:
+                res.append(y_test[var.id_famille].loc[index] in row["%s %s %i" % (var.prediction, var.famille,  n)].split(","))
+            else:
+                res.append(None)
+        #print(df_tested, "milieu")
+        df_tested.insert(7 + 2 * (n - 1), "%s %i" % (var.comparaison, n), res)
+        #print(df_tested, "milieu après")        
+    #print(df_tested, "fin")
+    return df_tested
 
 # # ################## Tests ####################
 # new2 = split_train_test(df_data, 0.2)

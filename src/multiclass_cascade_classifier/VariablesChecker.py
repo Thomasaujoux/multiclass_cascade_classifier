@@ -11,8 +11,8 @@ import glob
 import yaml
 
 import Variables as var
-# from oqlassif.HyperSelector import get_sectors_from_family_yaml
-# from oqlassif.ClassifierHelper import hashing, get_sector_classifier, get_all_families_classifier
+from HyperSelector import get_sectors_from_family_yaml
+from ClassifierHelper import hashing, get_sector_classifier, get_all_families_classifier
 
 def check_exists(path):
     """
