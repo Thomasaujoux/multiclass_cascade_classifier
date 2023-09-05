@@ -1,1 +1,0 @@
-from multiclass_cascade_classifier.multiclass_cascade_classifier import quicktext

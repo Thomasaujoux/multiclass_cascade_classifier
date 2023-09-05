@@ -3,7 +3,7 @@ Module DataTrainer
 
 Data training related functions
 
-@author: ThomasAUjoux
+@author: ThomasAujoux
 """
 
 from pathlib import Path

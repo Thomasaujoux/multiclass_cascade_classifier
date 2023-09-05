@@ -158,6 +158,78 @@ def check_test(csv_test_in, models_folder, metrics_folder, n_families):
     
     return csv_test_in, models_folder, metrics_folder, n_families
 
+
+def check_predict(csv_predict_in, models_folder, csv_predict_out, n_families):
+    """
+    Checks if the arguments given by the user for the predicting are valid.
+
+    Parameters
+    ----------
+    csv_predict_in : String
+        Path to the file that contains the prediction data set.
+    models_folder : String
+        Path to the folder that contains the trained classifiers.
+    csv_predict_out : String
+        Path to the file that will contain the predicted data set.
+    n_families : Int
+        Number of families to predict.
+
+    Returns
+    -------
+    csv_predict_in : String
+        Updated path to the file that contains the prediction data set.
+    models_folder : String
+        Updated path to the folder that contains the trained classifiers.
+    csv_predict_out : String
+        Updated path to the file that will contain the predicted data set.
+    n_families : Int
+        Updated number of families to predict.
+
+    """
+    print("Initialization...")
+    csv_predict_in = check_csv(csv_predict_in, True)
+    models_folder = check_folder(models_folder)
+    csv_predict_out = check_csv(csv_predict_out, False)
+    models_folder = check_trained_classifiers(models_folder)
+    n_families = checks_nFamilies(n_families)
+    
+    return csv_predict_in, models_folder, csv_predict_out, n_families
+
+def check_predict_minus_out(csv_predict_in, models_folder, n_families):
+    """
+    Checks if the arguments given by the user for the predicting are valid.
+
+    Parameters
+    ----------
+    csv_predict_in : String
+        Path to the file that contains the prediction data set.
+    models_folder : String
+        Path to the folder that contains the trained classifiers.
+    csv_predict_out : String
+        Path to the file that will contain the predicted data set.
+    n_families : Int
+        Number of families to predict.
+
+    Returns
+    -------
+    csv_predict_in : String
+        Updated path to the file that contains the prediction data set.
+    models_folder : String
+        Updated path to the folder that contains the trained classifiers.
+    csv_predict_out : String
+        Updated path to the file that will contain the predicted data set.
+    n_families : Int
+        Updated number of families to predict.
+
+    """
+    csv_predict_in = check_csv(csv_predict_in, True)
+    models_folder = check_folder(models_folder)
+    models_folder = check_trained_classifiers(models_folder)
+    n_families = checks_nFamilies(n_families)
+    
+    return csv_predict_in, models_folder, n_families
+
+
 def check_classifiers_train(y, hyper_family_per_sector_file, force):
     """
     Checks yaml for training.
@@ -354,6 +426,9 @@ def prepare_data(df_data, logjournal):
     start_time = time.time()
     df_vectorizer = DataVectorizer(columns_text=var.columns_text, columns_binary=var.columns_bin)
     X_vect = df_vectorizer.fit_transform(X_train)
+    import pandas as pd
+    a = pd.DataFrame(X_vect.sum()).sum()
+    print("avant la somme",a, "c'est la somme qui doit pas être égale à 0 !!!!!!!!!!!")
     vectorization_time = var.time_ % (divmod(time.time() - start_time, 60))
     print(vectorization_time)
     
@@ -625,8 +700,8 @@ def test_data(X_test, y_test, models_folder, n_families):
     print("Sectors...")
     start_time = time.time()
     y_sector_pred = predict_sectors(X_test, models_folder)
+    print(y_sector_pred)
     sector_testing_time = var.time_ % (divmod(time.time() - start_time, 60))
-    print(sector_testing_time)
     
     print("Families...")
     start_time = time.time()
@@ -635,14 +710,11 @@ def test_data(X_test, y_test, models_folder, n_families):
     print(family_testing_time)
     
     # Concatenation with true values
-    #print(df_tested, "avant")
+    print("Concatenation...")
     start_time = time.time()
     df_tested.insert(0, var.id_secteur, y_test[var.id_secteur])
     df_tested.insert(3, var.id_famille, y_test[var.id_famille])
     df_tested.insert(3, "%s %s" % (var.comparaison, var.secteur), df_tested["%s %s" % (var.prediction, var.secteur)] == y_test[var.id_secteur])
-    #print(df_tested, "après")
-    print(n_families, "n_families")
-    print(df_tested,"df_tested")
     for n in range(1, n_families + 1):
         res = []
         for index, row in df_tested.iterrows():
@@ -650,14 +722,12 @@ def test_data(X_test, y_test, models_folder, n_families):
                 res.append(y_test[var.id_famille].loc[index] in row["%s %s %i" % (var.prediction, var.famille,  n)].split(","))
             else:
                 res.append(None)
-        #print(df_tested, "milieu")
         df_tested.insert(7 + 2 * (n - 1), "%s %i" % (var.comparaison, n), res)
-        #print(df_tested, "milieu après")  
-    long_time = var.time_ % (divmod(time.time() - start_time, 60))
-    print(long_time, "c'est bizarrement long")      
-    #print(df_tested, "fin")
+    concatenation_time = var.time_ % (divmod(time.time() - start_time, 60))
+    print(concatenation_time)
+    
+    
     return df_tested
-
 # # ################## Tests ####################
 # new2 = split_train_test(df_data, 0.2)
 # print(new2[0], 2222222)
@@ -709,3 +779,73 @@ def test_metrics(df_pred, metrics_folder, n_families):
     # Classification reports
     generate_classification_report_sector(y_pred, metrics_folder)
     generate_classification_reports_family(y_pred, metrics_folder)
+
+
+   
+def predict_data(X_pred, models_folder, n_families):
+    """
+    Predicts labels of data set.
+
+    Parameters
+    ----------
+    X_pred : pd.DataFrame
+        Data set.
+    models_folder : String
+        Path to model folder.
+    n_families : Integer
+        Number of families to predict.
+
+    Returns
+    -------
+    df_predicted : pd.DataFrame
+        Data set and its predicted labels.
+
+    """
+    
+    ## Testing
+    print("Predicting...")
+    
+    # Sector
+    print("Sectors...")
+    start_time = time.time()
+    y_sector_pred = predict_sectors(X_pred, models_folder)
+    sector_predicting_time = var.time_ % (divmod(time.time() - start_time, 60))
+    print(sector_predicting_time)
+    
+    print("Families...")
+    start_time = time.time()
+    df_predicted = predict_families_per_sector_classifier(X_pred, y_sector_pred, models_folder, n_families)
+    family_predicting_time = var.time_ % (divmod(time.time() - start_time, 60))
+    print(family_predicting_time)
+    
+    return df_predicted
+
+def add_flags(X, n_families):
+    """
+    Adds flags to warn the user (based on probability)
+
+    Parameters
+    ----------
+    X : pd.DataFrame
+        Data set and its predicted labels (and probas !).
+    n_families : Integer
+        Number of predicted families.
+
+    Returns
+    -------
+    X : pd.DataFrame
+        Data set + flags.
+
+    """
+    
+    X[var.proba] = [float(proba) for proba in X[var.proba].tolist()]
+    X["%s %i" % (var.proba, 1)] = [float(proba) for proba in X["%s %i" % (var.proba, 1)].tolist()]
+        
+    sector_alert = X[var.proba] < var.sector_threshold
+    X["%s %s" % (var.secteur, var.alert)] = ""
+    X.loc[sector_alert, "%s %s" % (var.secteur, var.alert)] = "A verifier"
+    family_alert = X["%s %i" % (var.proba, 1)] < var.family_threshold
+    X["%s %s" % (var.famille, var.alert)] = ""
+    X.loc[family_alert, "%s %s" % (var.famille, var.alert)] = "A verifier"
+
+    return X

@@ -35,28 +35,39 @@ flag = "A vérifier"
 
 # Champs (combination)
 # For Preprocessing
-columns_group_pre = [id_produit, id_secteur, id_famille, libel, denomination_vente, id_mode_conservation]
+#columns_group_pre = [id_produit, id_secteur, id_famille, libel, denomination_vente, id_mode_conservation]
+columns_group_pre = [id_produit, id_secteur, id_famille, libel, denomination_vente]
 columns_ingredient_pre = [ingredient]
-columns_text_pre = [libel, denomination_vente, id_mode_conservation]
+#columns_text_pre = [libel, denomination_vente, id_mode_conservation]
+columns_text_pre = [libel, denomination_vente]
 
-columns = [id_produit, id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
+#columns = [id_produit, id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
+columns = [id_produit, id_famille, id_secteur, libel, denomination_vente, ingredient]
 column_index = [id_produit]
-columns_all= [id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
-column_X_all = [libel, denomination_vente, id_mode_conservation, ingredient]
-columns_X = [libel, denomination_vente, id_mode_conservation, ingredient]
-columns_X_id = [id_produit, libel, denomination_vente, id_mode_conservation, ingredient]
+#columns_all= [id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
+columns_all= [id_famille, id_secteur, libel, denomination_vente, ingredient]
+#column_X_all = [libel, denomination_vente, id_mode_conservation, ingredient]
+column_X_all = [libel, denomination_vente, ingredient]
+#columns_X = [libel, denomination_vente, id_mode_conservation, ingredient]
+columns_X = [libel, denomination_vente, ingredient]
+#columns_X_id = [id_produit, libel, denomination_vente, id_mode_conservation, ingredient]
+columns_X_id = [id_produit, libel, denomination_vente, ingredient]
 columns_Y = [id_produit, id_secteur, id_famille]
 
 # Binary features value
 
+# binary_features = {
+#     id_mode_conservation: ["frais", "ambiant", "surgele"],
+# }
 binary_features = {
-    id_mode_conservation: ["frais", "ambiant", "surgele"],
+    id_mode_conservation: [],
 }
 
 columns_label = [id_secteur, id_famille]
 columns_label_all  = [id_secteur, id_famille, predicted_secteur, predicted_famille]
 columns_text = [libel, denomination_vente, ingredient]
-columns_bin = [id_mode_conservation]
+#columns_bin = [id_mode_conservation]
+columns_bin = []
 columns_frozen = []
 
 
@@ -116,7 +127,10 @@ training_size = "training_size"
 
 time_= "--- %02d minutes et %02d secondes ---"
 
+### Test stats
 
+sector_threshold = 90
+family_threshold = 82
 
 # Number of binary features
 

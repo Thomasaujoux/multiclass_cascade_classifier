@@ -12,6 +12,7 @@ import Variables as var
 from ClassifierHelper import get_sector_classifier, get_all_families_classifier
 from FeaturesManipulator import features_truncate, features_intersection
 
+
 def predict_sectors(X, models_folder):
     """
     Predicts sectors
@@ -32,7 +33,6 @@ def predict_sectors(X, models_folder):
     
     # Load sector classifier
     clf = get_sector_classifier(models_folder)
-
     
     # Features the classifier was trained on
     features = clf.feature_names_in_
@@ -45,8 +45,10 @@ def predict_sectors(X, models_folder):
     # Probability
     y_pred_probas = clf.predict_proba(X)
     y_pred_probas = pd.DataFrame(y_pred_probas, columns=clf.classes_, index=X.index)
-
-    y_pred[var.proba] = pd.DataFrame(y_pred_probas).max(axis=1) * 100
+    y_pred[var.proba] = 0
+    for index, row in y_pred_probas.iterrows():
+        y_pred[var.proba].loc[index] = round(sorted(row, reverse=True)[0]*100, 2)
+    
     return y_pred
 
 def predict_families_simple(X, y_pred_sector, clfs):

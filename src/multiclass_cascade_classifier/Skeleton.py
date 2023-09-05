@@ -11,11 +11,11 @@ Handles CSV files
 ### Imports ###
 
 import Variables as var
-from Scripts import check_split, check_train, check_test, check_classifiers_train, check_classifiers_test
+from Scripts import check_split, check_train, check_test, check_predict, check_classifiers_train, check_classifiers_test
 from Scripts import load_data, prepare_data, save_data, save_classifiers
 from Scripts import prepro
 from Scripts import select_hyperparameters, save_hyperparameters
-from Scripts import split_train_test, train_data, test_data, test_metrics
+from Scripts import split_train_test, train_data, test_data, test_metrics, predict_data, add_flags
 
 from LogJournal import LogJournal
 
@@ -136,13 +136,13 @@ def train(csv_train_in, models_folder, hyper_sector_file=None, hyper_family_per_
 
 
 # # # ################## Tests ####################
-# csv_train_in = "./train_test/train_split.csv"
-# models_folder = "./models"
-# hyper_sector_file = "./hyper/hyper_sector.yaml"
-# hyper_family_per_sector_file = "./hyper/hyper_family.yaml"
-# hyper_sector_file = None
-# hyper_family_per_sector_file = None
-# train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, force=True, n_jobs=var.n_jobs, log_folder=None)
+csv_train_in = "./train_test/train_split.csv"
+models_folder = "./models"
+hyper_sector_file = "./hyper/hyper_sector.yaml"
+hyper_family_per_sector_file = "./hyper/hyper_family.yaml"
+hyper_sector_file = None
+hyper_family_per_sector_file = None
+train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, force=True, n_jobs=var.n_jobs, log_folder=None)
 # # # ################## Tests ####################
 
 import pandas as pd
@@ -184,28 +184,77 @@ def test(csv_test_in, models_folder, metrics_folder, n_families=None, force=True
     ## Preparing data
     y_test = df_test[var.columns_label]
     sectors_diff, families_diff = check_classifiers_test(y_test, models_folder, force)
+    # Log Journal
+    log_journal = None
     X_test = prepare_data(df_test, log_journal)
     
     
     df_tested = test_data(X_test, y_test, models_folder, n_families)
-    a = df_tested
     for c_index in range(len(var.columns_X)):
         df_tested.insert(c_index, var.columns_X[c_index], df_test[var.columns_X[c_index]])
-        a[var.columns_X[c_index]] = df_test[var.columns_X[c_index]]
-    print(a, "a")
-    print(df_tested, "l'autre")
-    diff = df_tested.compare(a)
-    print(diff, "comparaison des diff")
+
     test_metrics(df_tested, metrics_folder, n_families)
     
     # Saving data
     csv_predict_out = metrics_folder + "predictions.csv"
     save_data(csv_predict_out, df_tested)
 
-# # ################## Tests ####################
-csv_test_in = "./train_test/test_split.csv"
-models_folder = "./models"
-metrics_folder = "./metrics"
-n_families = 636
-test(csv_test_in, models_folder, metrics_folder, n_families, force=True)
-# # ################## Tests ####################
+# # # # ################## Tests ####################
+# csv_test_in = "./train_test/test_split.csv"
+# models_folder = "./models"
+# metrics_folder = "./metrics"
+# n_families = 3 # Question quoi mettre ici ????
+# test(csv_test_in, models_folder, metrics_folder, n_families, force=True)
+# # # # ################## Tests ####################
+
+
+
+def predict(csv_predict_in, models_folder, csv_predict_out, n_families=None):
+    """
+    Predicts families and sectors of test set.
+
+    Parameters
+    ----------
+    csv_predict_in : String
+        Path to data prediction set.
+    models_folder : String
+        Path to models folder (where the joblib files are saved).
+    csv_predict_out : String
+        Path to data predicted set (where it will be saved).
+    n_families : Boolean, optional
+        If True, continues if there are labels in the data set that cannot be predicted. The default is True.
+
+    Returns
+    -------
+    None.
+
+    """
+    
+    ## Checking variables
+    csv_predict_in, models_folder, csv_predict_out, n_families = check_predict(csv_predict_in, models_folder, csv_predict_out, n_families)
+    
+    # Loading data
+    df_pred = load_data(csv_predict_in, index_column=var.column_index, columns=var.columns_all)
+    
+    X_pred = prepare_data(df_pred, logjournal=False)
+    
+    # Predi
+    df_predicted = predict_data(X_pred, models_folder, n_families)
+    
+    for c_index in range(len(var.columns_X)):
+        df_predicted.insert(c_index, var.columns_X[c_index], df_pred[var.columns_X[c_index]])
+        
+    add_flags(df_predicted, n_families)
+    
+    # Saving data
+    save_data(csv_predict_out, df_predicted)
+
+
+
+# # # # ################## Tests ####################
+# csv_predict_in = "./train_test/test_split.csv"
+# models_folder = "./models"
+# csv_predict_out = "./predict_out/predict_out.csv"
+# #n_families = 3 # Question quoi mettre ici ????
+# predict(csv_predict_in, models_folder, csv_predict_out, n_families=True)
+# # # # ################## Tests ####################

@@ -3,7 +3,7 @@ Module ClassifierHelper
 
 Classifier files related function
 
-@author: defossez
+@author: ThomasAujoux
 """
 
 import os
