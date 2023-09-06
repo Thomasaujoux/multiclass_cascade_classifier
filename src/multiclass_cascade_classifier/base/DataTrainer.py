@@ -8,8 +8,8 @@ Data training related functions
 
 from pathlib import Path
 
-import Variables as var
-from FeaturesManipulator import features_truncate
+import base.variables.Variables as var
+from base.FeaturesManipulator import features_truncate
 
 
 

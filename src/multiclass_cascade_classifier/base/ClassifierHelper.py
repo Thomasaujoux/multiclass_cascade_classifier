@@ -11,12 +11,15 @@ import joblib
 import hashlib
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
+# from xgboost import XGBClassifier
 
-import Variables as var
+
+import base.variables.Variables as var
 
 classifiers = {
     var.SVM: SVC,
     var.RF: RandomForestClassifier,
+    # var.XGBoost: XGBClassifier,
 }
 
 def hashing(a):

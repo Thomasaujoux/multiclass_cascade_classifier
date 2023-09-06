@@ -15,14 +15,16 @@ import os
 
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
+# from xgboost import XGBClassifier
 # from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import GridSearchCV
 
-import Variables as var
+import base.variables.Variables as var
 
 classifiers = {
     var.SVM: SVC,
     var.RF: RandomForestClassifier,
+    # var.XGBoost: XGBClassifier,
 }
 
 
@@ -410,6 +412,14 @@ def select_hyperparams(X, y, n_jobs=var.n_jobs, cv=var.cv, logjournal=None):
     rf = RandomForestClassifier()
     clf_rf = GridSearchCV(rf, var.hyperParamsGrid[var.RF], verbose=3, cv=cv, n_jobs=n_jobs)
     clf_rf.fit(X, y)
+
+    # print(y, "this is y")
+    # #print(y.astype('category'), "c'est ça category")
+    # y_xgbc = pd.Series(y, dtype="category")
+    # # GridSearch for XGBoost
+    # xgbc = XGBClassifier()
+    # clf_xgbc = GridSearchCV(xgbc, var.hyperParamsGrid[var.XGBoost], verbose=3, cv=cv, n_jobs=n_jobs)
+    # clf_xgbc.fit(X, y_xgbc)
     
     # Comparing best classifiers for both SVM and RF
     # If SVM has a better score
@@ -427,6 +437,7 @@ def select_hyperparams(X, y, n_jobs=var.n_jobs, cv=var.cv, logjournal=None):
             var.classifierType: var.RF,
             var.classifierHyperParams: clf_rf.best_params_,
         }
+    
     
     # Old code
     # hyperParams = { }

@@ -9,15 +9,14 @@ Handles CSV files
 """
 
 ### Imports ###
-
-import Variables as var
+import base.variables.Variables as var
 from Scripts import check_split, check_train, check_test, check_predict, check_classifiers_train, check_classifiers_test
 from Scripts import load_data, prepare_data, save_data, save_classifiers
 from Scripts import prepro
 from Scripts import select_hyperparameters, save_hyperparameters
 from Scripts import split_train_test, train_data, test_data, test_metrics, predict_data, add_flags
 
-from LogJournal import LogJournal
+from base.LogJournal import LogJournal
 
 
 ### Split ###
@@ -199,13 +198,13 @@ def test(csv_test_in, models_folder, metrics_folder, n_families=None, force=True
     csv_predict_out = metrics_folder + "predictions.csv"
     save_data(csv_predict_out, df_tested)
 
-# # # # ################## Tests ####################
+# # ################## Tests ####################
 # csv_test_in = "./train_test/test_split.csv"
 # models_folder = "./models"
 # metrics_folder = "./metrics"
 # n_families = 3 # Question quoi mettre ici ????
 # test(csv_test_in, models_folder, metrics_folder, n_families, force=True)
-# # # # ################## Tests ####################
+# # ################## Tests ####################
 
 
 

@@ -35,39 +35,29 @@ flag = "A vérifier"
 
 # Champs (combination)
 # For Preprocessing
-#columns_group_pre = [id_produit, id_secteur, id_famille, libel, denomination_vente, id_mode_conservation]
-columns_group_pre = [id_produit, id_secteur, id_famille, libel, denomination_vente]
+columns_group_pre = [id_produit, id_secteur, id_famille, libel, denomination_vente, id_mode_conservation]
 columns_ingredient_pre = [ingredient]
-#columns_text_pre = [libel, denomination_vente, id_mode_conservation]
-columns_text_pre = [libel, denomination_vente]
+columns_text_pre = [libel, denomination_vente, id_mode_conservation]
 
-#columns = [id_produit, id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
-columns = [id_produit, id_famille, id_secteur, libel, denomination_vente, ingredient]
+columns = [id_produit, id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
 column_index = [id_produit]
-#columns_all= [id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
-columns_all= [id_famille, id_secteur, libel, denomination_vente, ingredient]
-#column_X_all = [libel, denomination_vente, id_mode_conservation, ingredient]
-column_X_all = [libel, denomination_vente, ingredient]
-#columns_X = [libel, denomination_vente, id_mode_conservation, ingredient]
-columns_X = [libel, denomination_vente, ingredient]
-#columns_X_id = [id_produit, libel, denomination_vente, id_mode_conservation, ingredient]
-columns_X_id = [id_produit, libel, denomination_vente, ingredient]
+columns_all= [id_famille, id_secteur, libel, denomination_vente, id_mode_conservation, ingredient]
+column_X_all = [libel, denomination_vente, id_mode_conservation, ingredient]
+columns_X = [libel, denomination_vente, id_mode_conservation, ingredient]
+columns_X_id = [id_produit, libel, denomination_vente, id_mode_conservation, ingredient]
 columns_Y = [id_produit, id_secteur, id_famille]
 
 # Binary features value
 
-# binary_features = {
-#     id_mode_conservation: ["frais", "ambiant", "surgele"],
-# }
 binary_features = {
-    id_mode_conservation: [],
+    id_mode_conservation: ["frais", "ambiant", "surgele"],
 }
+
 
 columns_label = [id_secteur, id_famille]
 columns_label_all  = [id_secteur, id_famille, predicted_secteur, predicted_famille]
 columns_text = [libel, denomination_vente, ingredient]
-#columns_bin = [id_mode_conservation]
-columns_bin = []
+columns_bin = [id_mode_conservation]
 columns_frozen = []
 
 
@@ -105,6 +95,7 @@ famille = "famille"
 
 SVM = "SVM"
 RF = "RandomForest"
+# XGBoost = "XGBoost"
 
 
 hyperParamsGrid = {
@@ -118,7 +109,21 @@ hyperParamsGrid = {
         "max_features": ["log2"],
         "criterion": ["entropy"],
     },
+    # XGBoost: {
+    #     'max_depth': [10],
+    #     'learning_rate': [0.3],
+    #     'gamma': [0.001],
+    #     'subsample': [0.8],
+    #     'colsample_bytree': [0.3],
+    #     'eval_metric': ['mlogloss'],
+    #     'tree_method': ["gpu_hist"],
+    #     'objective': ['multi:softmax'],
+    #     'enable_categorical': [True],
+
+    # },
 }
+
+
 cv = 2
 n_jobs = -1
 

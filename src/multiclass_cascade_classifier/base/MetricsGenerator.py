@@ -12,8 +12,8 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn import metrics
 
-import Variables as var
-from LogJournal import LogJournal
+import base.variables.Variables as var
+from base.LogJournal import LogJournal
 
 def generate_general_stats(df_pred, metrics_folder):
     """

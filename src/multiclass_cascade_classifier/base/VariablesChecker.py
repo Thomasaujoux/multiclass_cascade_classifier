@@ -10,9 +10,9 @@ import os
 import glob
 import yaml
 
-import Variables as var
-from HyperSelector import get_sectors_from_family_yaml
-from ClassifierHelper import hashing, get_sector_classifier, get_all_families_classifier
+import base.variables.Variables as var
+from base.HyperSelector import get_sectors_from_family_yaml
+from base.ClassifierHelper import hashing, get_sector_classifier, get_all_families_classifier
 
 def check_exists(path):
     """

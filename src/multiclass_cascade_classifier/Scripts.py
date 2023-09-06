@@ -16,30 +16,27 @@ from sklearn.model_selection import train_test_split
 import time
 import sys
 
-import Variables as var
+import base.variables.Variables as var
 
-from VariablesChecker import check_csv, check_yaml, check_folder, create_folder, check_yaml_sector, check_yaml_families
-from VariablesChecker import check_test_size, checks_nFamilies, check_trained_classifiers, check_classifiers_train_sectors, check_classifiers_test_diff
-from DataHelper import get_dataframe
-from PreProcessing import PreProcessing
+from base.VariablesChecker import check_csv, check_yaml, check_folder, create_folder, check_yaml_sector, check_yaml_families
+from base.VariablesChecker import check_test_size, checks_nFamilies, check_trained_classifiers, check_classifiers_train_sectors, check_classifiers_test_diff
+from base.DataHelper import get_dataframe
+from base.PreProcessing import PreProcessing
 
-from DataFrameNormalizer import DataFrameNormalizer
-from DataVectorizer import DataVectorizer
+from base.DataFrameNormalizer import DataFrameNormalizer
+from base.DataVectorizer import DataVectorizer
 
-from HyperSelector import select_hyperparameters_sector, select_hyperparameters_family
-from DataTrainer import train_sector_classifier, train_families_per_sector_classifier
-from HyperSelector import write_sector_hyperparam, write_family_per_sector_hyperparams
-from ClassifierHelper import save_sector_classifier, save_all_family_classifier
+from base.HyperSelector import select_hyperparameters_sector, select_hyperparameters_family
+from base.DataTrainer import train_sector_classifier, train_families_per_sector_classifier
+from base.HyperSelector import write_sector_hyperparam, write_family_per_sector_hyperparams
+from base.ClassifierHelper import save_sector_classifier, save_all_family_classifier
 
-from DataPredicter import predict_sectors, predict_families_per_sector_classifier
+from base.DataPredicter import predict_sectors, predict_families_per_sector_classifier
 
-from MetricsGenerator import generate_general_stats
-from MetricsGenerator import generate_confusion_matrix_sector, generate_confusion_matrixes_family
-from MetricsGenerator import generate_classification_report_sector, generate_classification_reports_family
+from base.MetricsGenerator import generate_general_stats
+from base.MetricsGenerator import generate_confusion_matrix_sector, generate_confusion_matrixes_family
+from base.MetricsGenerator import generate_classification_report_sector, generate_classification_reports_family
 
-# from MetricsGenerator import generate_general_stats
-# from MetricsGenerator import generate_confusion_matrix_sector, generate_confusion_matrixes_family
-# from MetricsGenerator import generate_classification_report_sector, generate_classification_reports_family
 
 
 
@@ -427,7 +424,9 @@ def prepare_data(df_data, logjournal):
     df_vectorizer = DataVectorizer(columns_text=var.columns_text, columns_binary=var.columns_bin)
     X_vect = df_vectorizer.fit_transform(X_train)
     import pandas as pd
-    a = pd.DataFrame(X_vect.sum()).sum()
+    a = pd.DataFrame(X_vect.sum())
+    b = a.loc[a[0] == 0]
+    print(b)
     print("avant la somme",a, "c'est la somme qui doit pas être égale à 0 !!!!!!!!!!!")
     vectorization_time = var.time_ % (divmod(time.time() - start_time, 60))
     print(vectorization_time)

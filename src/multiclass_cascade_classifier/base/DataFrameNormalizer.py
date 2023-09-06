@@ -24,7 +24,7 @@ for word in inrae_dictio:
     stop_words_list.append(word)
 
 
-import Variables as var
+import base.variables.Variables as var
 
 
 
