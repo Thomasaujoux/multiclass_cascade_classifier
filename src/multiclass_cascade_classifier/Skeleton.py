@@ -29,7 +29,7 @@ simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 ### Split ###
 
-def split(csv_in, csv_out_train="train_test/train_split.csv", csv_out_test="train_test/test_split.csv", test_size=0.20):
+def split(csv_in, csv_out_train="train_split.csv", csv_out_test="test_split.csv", test_size=0.20):
     """
     Splits data from csv_in into a training set and a test set with size of test set being test_size%
     Saves the new sets at train_out and test_out.

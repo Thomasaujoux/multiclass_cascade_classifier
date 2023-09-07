@@ -18,5 +18,5 @@ hyperparameters:
   verbose: 0
   warm_start: false
 training_date: 2023-09-07
-training_size: 13270
+training_size: 53076
 type: RandomForest

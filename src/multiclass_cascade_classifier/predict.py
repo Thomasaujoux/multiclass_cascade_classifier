@@ -3,9 +3,7 @@
 """
 
 import click
-import sys
 
-sys.path.append('../src/multiclass_cascade_classifier')
 from Skeleton import predict
 
 def get_path(path):

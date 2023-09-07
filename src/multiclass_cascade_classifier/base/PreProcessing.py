@@ -34,7 +34,7 @@ def CleanColumns(X,
                columns_text=[]
                 ):
     for column in var.columns_ingredient_pre:
-        print(column, 1)
+        print("We are processing column:", column)
         X[column] = X[column].str.split().map(lambda x:remove_colon(x))
         X[column] = X[column].str.replace(r"\s\(.*\)", "", regex=True)
         X[column] = X[column].str.replace(r"\s\(.*\)\s", " ", regex=True)
@@ -50,7 +50,7 @@ def CleanColumns(X,
     X = X.groupby(var.columns_group_pre)[var.columns_ingredient_pre[0]].agg(lambda col: ' '.join(col)).reset_index(name=var.columns_ingredient_pre[0])
 
     for column in columns_text:
-        print(column, 2)
+        print("We are processing column:", column)
         X[column] = X[column].str.split().map(lambda x:remove_colon(x))
         X[column] = X[column].str.replace(r"\s\(.*\)", "", regex=True)
         X[column] = X[column].str.replace(r"\s\(.*\)\s", " ", regex=True)

@@ -3,9 +3,7 @@
 """
 
 import click
-import sys
 
-sys.path.append('../src/multiclass_cascade_classifier')
 from Skeleton import test
 
 def get_path(path):
@@ -19,8 +17,9 @@ def get_path(path):
 @click.option('--test_set_path', prompt="Path to test data", help='Train data.', required=True, type=str)
 @click.option('--models_folder', prompt="Path to models folder", help='Folder where the trained classifiers are saved.', required=True, type=str)
 @click.option('--metrics_folder', prompt="Path to metrics folder", help='Folder where generated statistics will be saved.', required=True, type=str)
-@click.option('--n_families', default=5, prompt="Number of families to predict", help='The number of families that will be predicted for each product.', type=int)
-@click.option('--force', is_flag=True, default=False, help="If some sectors don't have a trained classifier, it forces the test despite knowing some products will be falsely classified.", type=bool)
+@click.option('--n_families', default=5, prompt="Number of families to predict", help='The number of families that will be predicted for each product.', required=True, type=int)
+@click.option('--force', is_flag=True, default=False, help="If some sectors don't have a trained classifier, it forces the test despite knowing some products will be falsely classified.", required=True, type=bool)
+
 def command_test(test_set_path, models_folder, metrics_folder, n_families, force):
     """
     Test command.
