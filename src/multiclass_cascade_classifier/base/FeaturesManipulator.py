@@ -6,19 +6,11 @@ Features related functions
 @author: ThomasAujoux
 """
 
+
+
 import pandas as pd
 
 import base.variables.Variables as var
-
-
-
-# ################## Tests ####################
-#nb_bin_features = 3
-
-
-
-# ################## Tests ####################
-
 
 
 

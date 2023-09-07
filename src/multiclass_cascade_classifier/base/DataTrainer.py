@@ -6,22 +6,11 @@ Data training related functions
 @author: ThomasAujoux
 """
 
+
 from pathlib import Path
 
 import base.variables.Variables as var
 from base.FeaturesManipulator import features_truncate
-
-
-
-# # ################## Tests ####################
-# id_secteur = "Secteur"
-# id_famille = "Famille"
-
-# from pathlib import Path
-
-
-# # ################## Tests ####################
-
 
 
 

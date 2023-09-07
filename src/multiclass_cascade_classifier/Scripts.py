@@ -9,6 +9,7 @@ Handles pd.DataFrame
 """
 
 
+
 ### Imports ###
 
 from sklearn.model_selection import train_test_split
@@ -30,14 +31,11 @@ from base.HyperSelector import select_hyperparameters_sector, select_hyperparame
 from base.DataTrainer import train_sector_classifier, train_families_per_sector_classifier
 from base.HyperSelector import write_sector_hyperparam, write_family_per_sector_hyperparams
 from base.ClassifierHelper import save_sector_classifier, save_all_family_classifier
-
 from base.DataPredicter import predict_sectors, predict_families_per_sector_classifier
 
 from base.MetricsGenerator import generate_general_stats
 from base.MetricsGenerator import generate_confusion_matrix_sector, generate_confusion_matrixes_family
 from base.MetricsGenerator import generate_classification_report_sector, generate_classification_reports_family
-
-
 
 
 
@@ -423,27 +421,10 @@ def prepare_data(df_data, logjournal):
     start_time = time.time()
     df_vectorizer = DataVectorizer(columns_text=var.columns_text, columns_binary=var.columns_bin)
     X_vect = df_vectorizer.fit_transform(X_train)
-    import pandas as pd
-    a = pd.DataFrame(X_vect.sum())
-    b = a.loc[a[0] == 0]
-    print(b)
-    print("avant la somme",a, "c'est la somme qui doit pas être égale à 0 !!!!!!!!!!!")
     vectorization_time = var.time_ % (divmod(time.time() - start_time, 60))
     print(vectorization_time)
     
     return X_vect
-
-
-
-# # ################## Tests ####################
-# csv_in = "./data2/merged_final.csv"
-# df_data = load_data(csv_in=csv_in, index_column=None, columns=var.columns, logjournal=None)
-# print(df_data)
-# new = prepare_data(df_data, logjournal=None)
-# print(new)
-
-# # ################## Tests ####################
-
 
 ### Split ###
 
@@ -495,14 +476,6 @@ def split_train_test(df_produit, test_size):
     X_test[columns_rest] = df_produit.loc[index_test][columns_rest]
     
     return X_train, X_test
-
-
-# # ################## Tests ####################
-# new2 = split_train_test(df_data, 0.8)
-# print(new2[0], 2222222)
-# print(new2[1], 3333333)
-# # ################## Tests ####################
-
 
 ### Modele ###
 
@@ -558,9 +531,6 @@ def select_hyperparameters(X, y, hyper_sector_file=None, hyper_family_per_sector
     
     return clf_sector, clfs_family
 
-
-
-
 def train_data(X, y, clf_sector, clfs_family, logjournal=None):
     """
     Trains classifiers on train set.
@@ -609,9 +579,6 @@ def train_data(X, y, clf_sector, clfs_family, logjournal=None):
     
     return clf_sector_trained, clfs_family_trained
 
-
-
-
 def save_hyperparameters(models_folder, clf_sector, clfs_family, training_size, logjournal=None):
     """
     Save selected hyperparameters into yaml files.
@@ -642,8 +609,6 @@ def save_hyperparameters(models_folder, clf_sector, clfs_family, training_size, 
     write_sector_hyperparam(yaml_sector_out, clf_sector, training_size)
     write_family_per_sector_hyperparams(yaml_families_out, clfs_family)
 
-
-   
 def save_classifiers(models_folder, clf_sector, clfs_family, logjournal=None):
     """
     Saves trained classifiers into models folder.
@@ -668,8 +633,7 @@ def save_classifiers(models_folder, clf_sector, clfs_family, logjournal=None):
 
     save_sector_classifier(clf_sector, models_folder)
     save_all_family_classifier(clfs_family, models_folder)
-        
-        
+
 def test_data(X_test, y_test, models_folder, n_families):
     """
     Tests classifiers in models_folder on data test set.
@@ -727,14 +691,6 @@ def test_data(X_test, y_test, models_folder, n_families):
     
     
     return df_tested
-# # ################## Tests ####################
-# new2 = split_train_test(df_data, 0.2)
-# print(new2[0], 2222222)
-# print(new2[1], 3333333)
-# # ################## Tests ####################
-
-
-
 
 def test_metrics(df_pred, metrics_folder, n_families):
     """
@@ -779,8 +735,6 @@ def test_metrics(df_pred, metrics_folder, n_families):
     generate_classification_report_sector(y_pred, metrics_folder)
     generate_classification_reports_family(y_pred, metrics_folder)
 
-
-   
 def predict_data(X_pred, models_folder, n_families):
     """
     Predicts labels of data set.

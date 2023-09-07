@@ -7,8 +7,8 @@ HyperParameters selection related functions
 """
 
 
+
 import yaml
-# import itertools
 import pandas as pd
 from datetime import date
 import os
@@ -16,7 +16,6 @@ import os
 from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 # from xgboost import XGBClassifier
-# from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import GridSearchCV
 
 import base.variables.Variables as var
@@ -26,6 +25,7 @@ classifiers = {
     var.RF: RandomForestClassifier,
     # var.XGBoost: XGBClassifier,
 }
+
 
 
 def read_clf_yaml(clf_yaml):
@@ -402,7 +402,6 @@ def select_hyperparams(X, y, n_jobs=var.n_jobs, cv=var.cv, logjournal=None):
         }.
 
     """
-    print(cv)
     # GridSearch for SVM
     svm = SVC()
     clf_svm = GridSearchCV(svm, var.hyperParamsGrid[var.SVM], verbose=3, cv=cv, n_jobs=n_jobs)
@@ -413,8 +412,6 @@ def select_hyperparams(X, y, n_jobs=var.n_jobs, cv=var.cv, logjournal=None):
     clf_rf = GridSearchCV(rf, var.hyperParamsGrid[var.RF], verbose=3, cv=cv, n_jobs=n_jobs)
     clf_rf.fit(X, y)
 
-    # print(y, "this is y")
-    # #print(y.astype('category'), "c'est ça category")
     # y_xgbc = pd.Series(y, dtype="category")
     # # GridSearch for XGBoost
     # xgbc = XGBClassifier()

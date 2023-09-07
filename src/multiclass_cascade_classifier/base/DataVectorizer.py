@@ -6,43 +6,12 @@ Data vectorization class
 @author: ThomasAujoux
 """
 
-import pandas as pd
 
+
+import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
 import base.variables.Variables as var
-
-
-
-# # ################## Tests ####################
-# csv_in = "C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final.csv"
-# X = get_dataframe(csv_in)
-
-
-# columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
-# columns_binary=["Conservation"]
-# columns_frozen=[]
-# columns_ingredient_pre = "Ingredient"
-# X = CleanColumns(X, columns_text,
-#                  columns_binary_pre = "Nom",
-#                  columns_ingredient_pre = "Ingredient")
-
-
-# columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
-# columns_binary=["Conservation"]
-# columns_frozen=[]
-# X = CleanDataFrame(X, True,True,True,True,True,columns_text,columns_binary,columns_frozen)
-
-# columns_text=["Denomination_de_vente", "Nom", "Ingredient"]
-# columns_binary=["Conservation"]
-# id_mode_conservation = "Conservation"
-# binary_features = {
-#     id_mode_conservation: ["frais", "ambiant", "surgele"],
-# }
-
-
-# X.to_csv("C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final2.csv")
-# # ################## Tests ####################
 
 
 
@@ -63,7 +32,6 @@ class DataVectorizer():
         self.TfidfVectorizer_binary = { }
         
         for column in self.columns_binary:
-            print("CAAAA NEEEE VAAA JAAMMAISSSS ICIIIIIIIII")
             self.TfidfVectorizer_binary[column] = TfidfVectorizer(
                 binary=True, norm=None,
                 use_idf=False, smooth_idf=False,

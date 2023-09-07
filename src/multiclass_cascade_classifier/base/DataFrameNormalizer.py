@@ -8,67 +8,79 @@ DataFrame normalization class
 
 
 
-
 import pandas as pd
 import re
-
 
 import nltk
 from nltk.stem.snowball import SnowballStemmer
 stemmer = SnowballStemmer(language='french')
-
 stopwords = nltk.corpus.stopwords.words('french')
 stop_words_list = list(set(stopwords) )
 inrae_dictio = ["", "a", "mg", "cm", "g", "gl", "ml", "k", "el", "ed", "gr" "k" "mi" "st" "the" , "kg", "dl", "l", "cl", "about", "ad", "al", "and", "in", "it", "too"]
 for word in inrae_dictio:
     stop_words_list.append(word)
 
-
 import base.variables.Variables as var
 
 
 
-# # ################## Tests ####################
-# csv_in = "C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final.csv"
-# X = get_dataframe(csv_in)
-
-
-# columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
-# columns_binary=["Conservation"]
-# columns_frozen=[]
-# columns_ingredient_pre = "Ingredient"
-# X = CleanColumns(X, 
-#                  columns_text,
-#                  columns_binary_pre = "Nom",
-#                  columns_ingredient_pre = "Ingredient")
-
-
-# columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
-# columns_binary=["Conservation"]
-# columns_frozen=[]
-# X = CleanDataFrame(X, 
-#                    True,
-#                    True,
-#                    True,
-#                    True,
-#                    True,
-#                    columns_text,
-#                    columns_binary,
-#                    columns_frozen)
-# # ################## Tests ####################
-
-
 #defining function for tokenization
-def tokenization(text):
+def tokenization(text
+                 ):
+    """
+    Tokenize columns of the dataframe
+
+    Parameters
+    ----------
+    text : str
+        cell of a DataFrame
+
+    Returns
+    -------
+    list of str
+        Données tokenizées.
+
+    """
     tokens = text.split(sep = ' ')
     return tokens
 
 #defining the function to remove stopwords from tokenized text
 def remove_stopwords(text):
+    """
+    Remove the stopwords of a text
+
+    Parameters
+    ----------
+    text : list of str
+        cell of a DataFrame
+
+    Returns
+    -------
+    list of str
+        Données sans les stop words
+
+    """
     output= [i for i in text if i not in stopwords]
     return output
 
-def preprocess_text_stemm(df, column):
+def preprocess_text_stemm(df,
+                        column=""
+                        ):
+    """
+    Stemization of a column of a dataframe
+
+    Parameters
+    ----------
+    X : pd.DataFrame
+        Base de données.
+    columns_text : String, optional
+        Variables de textes (à prétraiter). The default is "".
+    Returns
+    -------
+    pd.DataFrame
+        Données lemmentizées.
+
+    """
     for i in range(len(df[column])):
         if type(df[column][i]) != list :
             continue
@@ -82,11 +94,11 @@ def preprocess_text_stemm(df, column):
 def CleanDataFrame(X, 
                lowercase=False,
                removestopwords=False,
-               removedigit=False,
+               removedigit=False, # doesn't use it anymore in the new version, it is in the preprocessing
                getstemmer=False,
-               getlemmatisation=False,
+               getlemmatisation=False, # doesn't use it anymore in the new version, for performance reasons
                columns_text=[],
-               columns_binary=[],
+               columns_binary=[], # doesn't use it anymore in the new version, for performance reasons
                columns_frozen=[]
               ):
     """
@@ -120,7 +132,7 @@ def CleanDataFrame(X,
 
     """
     for column in columns_text:
-        print(column)
+        print("We are processing this column:", column)
         if lowercase:
             X[column] = X[column].apply(lambda x: x.lower())
 
@@ -135,6 +147,7 @@ def CleanDataFrame(X,
             X.loc[X[column].isnull()] = X.loc[X[column].isnull()].apply(lambda x: [""])
 
     return X
+
 
 
 from sklearn.base import BaseEstimator, TransformerMixin
@@ -171,9 +184,6 @@ class DataFrameNormalizer(BaseEstimator, TransformerMixin):
                             columns_text=self.columns_text,
                             columns_binary=self.columns_binary,
                             columns_frozen=self.columns_frozen)
-
-
-# I don't understand this part with the fit and fit_transform ??????
 
     def fit(self, X, y=None, **fit_params):
         return self

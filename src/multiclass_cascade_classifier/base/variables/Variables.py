@@ -6,6 +6,8 @@ Variables
 @author: ThomasAujoux
 """
 
+
+
 ### Champs
 
 # Input
@@ -15,10 +17,8 @@ id_famille = "Famille"
 predicted_famille = "predicted_famille"
 id_secteur = "Secteur"
 predicted_secteur = "predicted_secteur"
-#id_marque = "id_marque" # We don't take into account the brand anymore
 libel = "Nom"
 denomination_vente = "Denomination_de_vente"
-#libel_precision = "precision_produit" # There isn't this feature anymore
 id_mode_conservation = "Conservation"
 ingredient = "Ingredient"
 
@@ -31,7 +31,6 @@ succes = "succes"
 alert = "alerte"
 
 flag = "A vérifier"
-
 
 # Champs (combination)
 # For Preprocessing
@@ -59,6 +58,7 @@ columns_label_all  = [id_secteur, id_famille, predicted_secteur, predicted_famil
 columns_text = [libel, denomination_vente, ingredient]
 columns_bin = [id_mode_conservation]
 columns_frozen = []
+
 
 
 ### Prétraitement
@@ -97,7 +97,6 @@ SVM = "SVM"
 RF = "RandomForest"
 # XGBoost = "XGBoost"
 
-
 hyperParamsGrid = {
     SVM: {
     "kernel": ["linear"],
@@ -123,7 +122,6 @@ hyperParamsGrid = {
     # },
 }
 
-
 cv = 2
 n_jobs = -1
 
@@ -131,6 +129,8 @@ training_date = "training_date"
 training_size = "training_size"
 
 time_= "--- %02d minutes et %02d secondes ---"
+
+
 
 ### Test stats
 

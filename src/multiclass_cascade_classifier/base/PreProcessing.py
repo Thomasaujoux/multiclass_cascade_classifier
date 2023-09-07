@@ -7,44 +7,15 @@ DataFrame PreProcessing class
 """
 
 
+
 import pandas as pd
 
 import base.variables.Variables as var
 
 
 
-# # # ################## Tests ####################
-# csv_in = "C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final.csv"
-# X = get_dataframe(csv_in)
-
-
-# columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
-# columns_binary=["Conservation"]
-# columns_frozen=[]
-# columns_ingredient_pre = "Ingredient"
-# X = CleanColumns(X, 
-#                  columns_text,
-#                  columns_binary_pre = "Nom",
-#                  columns_ingredient_pre = "Ingredient")
-
-
-# columns_text = ["Nom", "Denomination_de_vente", "Ingredient"]
-# columns_binary=["Conservation"]
-# columns_frozen=[]
-# X = CleanDataFrame(X, 
-#                    True,
-#                    True,
-#                    True,
-#                    True,
-#                    True,
-#                    columns_text,
-#                    columns_binary,
-#                    columns_frozen)
-# # # ################## Tests ####################
-
-
-
-def remove_colon(list):
+def remove_colon(list
+                 ):
     n = len(list)
     i = 1
     colonfree = list[0]
@@ -53,13 +24,11 @@ def remove_colon(list):
         i = i + 1
     return colonfree
 
-
-
-def remove_punctuation(text):
+def remove_punctuation(text
+                       ):
     list_punctuation = '!"#$%&\'()+,-./;:<=>?@[\\]^_`{|}~1234567890'
     punctuationfree="".join([i for i in text if i not in list_punctuation])
     return punctuationfree #storing the puntuation free text
-
 
 def CleanColumns(X,
                columns_text=[]
@@ -77,7 +46,6 @@ def CleanColumns(X,
         X[column] = X[column].apply(lambda x: x.lstrip())
 
         X[column]= X[column].apply(lambda x:remove_punctuation(x))
-
 
     X = X.groupby(var.columns_group_pre)[var.columns_ingredient_pre[0]].agg(lambda col: ' '.join(col)).reset_index(name=var.columns_ingredient_pre[0])
 
@@ -114,9 +82,6 @@ class PreProcessing(BaseEstimator, TransformerMixin):
         return CleanColumns(X,
                columns_text=self.columns_text,
                )
-
-
-# I don't understand this part with the fit and fit_transform ??????
 
     def fit(self, X, y=None, **fit_params):
         return self

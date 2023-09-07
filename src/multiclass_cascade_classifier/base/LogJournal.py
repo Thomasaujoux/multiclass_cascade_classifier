@@ -6,7 +6,11 @@ Log journal class
 @author: ThomasAujoux
 """
 
+
+
 import datetime
+
+
 
 class LogJournal():
     

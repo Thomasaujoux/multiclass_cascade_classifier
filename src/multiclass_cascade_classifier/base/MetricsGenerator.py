@@ -3,8 +3,9 @@ MetricsGenerator
 
 Data testing related functions
 
-@author: defossez
+@author: ThomasAujoux
 """
+
 
 import pandas as pd
 
@@ -14,6 +15,8 @@ from sklearn import metrics
 
 import base.variables.Variables as var
 from base.LogJournal import LogJournal
+
+
 
 def generate_general_stats(df_pred, metrics_folder):
     """

@@ -13,7 +13,6 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 # from xgboost import XGBClassifier
 
-
 import base.variables.Variables as var
 
 classifiers = {
@@ -21,6 +20,9 @@ classifiers = {
     var.RF: RandomForestClassifier,
     # var.XGBoost: XGBClassifier,
 }
+
+
+
 
 def hashing(a):
     """

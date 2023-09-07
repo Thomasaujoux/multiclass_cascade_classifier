@@ -8,7 +8,11 @@ Handles CSV files
 @author: ThomasAujoux
 """
 
+
+
 ### Imports ###
+import pandas as pd
+
 import base.variables.Variables as var
 from Scripts import check_split, check_train, check_test, check_predict, check_classifiers_train, check_classifiers_test
 from Scripts import load_data, prepare_data, save_data, save_classifiers
@@ -17,6 +21,10 @@ from Scripts import select_hyperparameters, save_hyperparameters
 from Scripts import split_train_test, train_data, test_data, test_metrics, predict_data, add_flags
 
 from base.LogJournal import LogJournal
+
+from warnings import simplefilter
+simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
+
 
 
 ### Split ###
@@ -42,7 +50,7 @@ def split(csv_in, csv_out_train="train_test/train_split.csv", csv_out_test="trai
     None.
 
     """
-    
+
     ## Checking variables
     csv_in, csv_out_train, csv_out_test, test_size = check_split(csv_in, csv_out_train, csv_out_test, test_size)
     
@@ -50,19 +58,15 @@ def split(csv_in, csv_out_train="train_test/train_split.csv", csv_out_test="trai
     df_produit = load_data(csv_in, index_column=None, columns=var.columns, logjournal=None)
     df_produit = prepro(df_produit, logjournal=None)
     X_train, X_test = split_train_test(df_produit, test_size)
-    print(X_train.columns, X_test.columns)
     print(X_train.head(), X_test.head())
     # Saving data sets
     save_data(csv_out_train, X_train)
     save_data(csv_out_test, X_test)
 
-# # # ################## Tests ####################
+################## Tests ####################
 # csv_in = "./data2/merged_final.csv"
-
 # split(csv_in)
-
-# # # ################## Tests ####################
-
+################## Tests ####################
 
 ### Modele ###
 
@@ -89,7 +93,6 @@ def train(csv_train_in, models_folder, hyper_sector_file=None, hyper_family_per_
 
     ## Checking variables
     csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, log_folder = check_train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, log_folder)
-    print(1)
     # Log Journal
     log_journal = LogJournal(log_folder, "log") if log_folder else None
 
@@ -110,19 +113,12 @@ def train(csv_train_in, models_folder, hyper_sector_file=None, hyper_family_per_
     ## Loading data
     df_train = load_data(csv_train_in, index_column=None, columns=var.columns, logjournal=log_folder)
     training_size = df_train.shape[0]
-    print(2)
     ## Preparing data
     y_train = df_train[var.columns_label]
-    print(3)
     sectors_diff = check_classifiers_train(y_train, hyper_family_per_sector_file, force)
-    print(4)
     X_train = prepare_data(df_train, log_journal)
-    print(5)
-    print(X_train, 90)
-    print(y_train, 100)
     ## Select hyperparameters
     clf_sector, clfs_family = select_hyperparameters(X_train, y_train, hyper_sector_file, hyper_family_per_sector_file, sectors_diff, n_jobs, log_journal)
-    print(6)
     save_hyperparameters(models_folder, clf_sector, clfs_family, training_size, log_journal)
     
     ## Train Data
@@ -132,21 +128,15 @@ def train(csv_train_in, models_folder, hyper_sector_file=None, hyper_family_per_
     if log_journal:
         log_journal.close()
 
-
-
-# # # ################## Tests ####################
-csv_train_in = "./train_test/train_split.csv"
-models_folder = "./models"
-hyper_sector_file = "./hyper/hyper_sector.yaml"
-hyper_family_per_sector_file = "./hyper/hyper_family.yaml"
-hyper_sector_file = None
-hyper_family_per_sector_file = None
-train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, force=True, n_jobs=var.n_jobs, log_folder=None)
-# # # ################## Tests ####################
-
-import pandas as pd
-from warnings import simplefilter
-simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
+################## Tests ####################
+# csv_train_in = "./train_test/train_split.csv"
+# models_folder = "./models"
+# hyper_sector_file = "./hyper/hyper_sector.yaml"
+# hyper_family_per_sector_file = "./hyper/hyper_family.yaml"
+# hyper_sector_file = None
+# hyper_family_per_sector_file = None
+# train(csv_train_in, models_folder, hyper_sector_file, hyper_family_per_sector_file, force=True, n_jobs=var.n_jobs, log_folder=None)
+################## Tests ####################
 
 def test(csv_test_in, models_folder, metrics_folder, n_families=None, force=True):
     """
@@ -198,15 +188,13 @@ def test(csv_test_in, models_folder, metrics_folder, n_families=None, force=True
     csv_predict_out = metrics_folder + "predictions.csv"
     save_data(csv_predict_out, df_tested)
 
-# # ################## Tests ####################
+################## Tests ####################
 # csv_test_in = "./train_test/test_split.csv"
 # models_folder = "./models"
 # metrics_folder = "./metrics"
 # n_families = 3 # Question quoi mettre ici ????
 # test(csv_test_in, models_folder, metrics_folder, n_families, force=True)
-# # ################## Tests ####################
-
-
+################## Tests ####################
 
 def predict(csv_predict_in, models_folder, csv_predict_out, n_families=None):
     """
@@ -248,12 +236,10 @@ def predict(csv_predict_in, models_folder, csv_predict_out, n_families=None):
     # Saving data
     save_data(csv_predict_out, df_predicted)
 
-
-
-# # # # ################## Tests ####################
+################## Tests ####################
 # csv_predict_in = "./train_test/test_split.csv"
 # models_folder = "./models"
 # csv_predict_out = "./predict_out/predict_out.csv"
 # #n_families = 3 # Question quoi mettre ici ????
 # predict(csv_predict_in, models_folder, csv_predict_out, n_families=True)
-# # # # ################## Tests ####################
+################## Tests ####################

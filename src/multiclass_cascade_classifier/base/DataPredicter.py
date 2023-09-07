@@ -6,11 +6,14 @@ Data prediction related functions
 @author: ThomasAujoux
 """
 
+
+
 import pandas as pd
 
 import base.variables.Variables as var
 from base.ClassifierHelper import get_sector_classifier, get_all_families_classifier
 from base.FeaturesManipulator import features_truncate, features_intersection
+
 
 
 def predict_sectors(X, models_folder):

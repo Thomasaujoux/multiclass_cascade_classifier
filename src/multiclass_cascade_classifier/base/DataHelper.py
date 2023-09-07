@@ -6,16 +6,9 @@ Help to import the csv files in a DataFrame
 @author: ThomasAujoux
 """
 
+
 import csv
 import pandas as pd
-
-
-
-
-################## Tests ####################
-# csv_in = "C:/Users/Thomas Aujoux/Documents/GitHub/package/src/multiclass_cascade_classifier/data/merged_final.csv"
-# X = get_dataframe(csv_in)
-################## Tests ####################
 
 
 
