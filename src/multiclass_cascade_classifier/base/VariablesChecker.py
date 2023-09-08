@@ -12,9 +12,9 @@ import os
 import glob
 import yaml
 
-import base.variables.Variables as var
-from base.HyperSelector import get_sectors_from_family_yaml
-from base.ClassifierHelper import hashing, get_sector_classifier, get_all_families_classifier
+import multiclass_cascade_classifier.base.variables.Variables as var
+from multiclass_cascade_classifier.base.HyperSelector import get_sectors_from_family_yaml
+from multiclass_cascade_classifier.base.ClassifierHelper import hashing, get_sector_classifier, get_all_families_classifier
 
 
 

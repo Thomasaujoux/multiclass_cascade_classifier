@@ -20,7 +20,7 @@ inrae_dictio = ["", "a", "mg", "cm", "g", "gl", "ml", "k", "el", "ed", "gr" "k" 
 for word in inrae_dictio:
     stop_words_list.append(word)
 
-import base.variables.Variables as var
+import multiclass_cascade_classifier.base.variables.Variables as var
 
 
 

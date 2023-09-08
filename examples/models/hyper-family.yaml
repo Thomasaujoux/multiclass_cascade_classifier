@@ -1,10 +1,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -22,10 +22,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -41,30 +41,33 @@
   secteur: Aperitifs a croquer
   type: RandomForest
 - hyperparameters:
-    C: 1
-    break_ties: false
-    cache_size: 200
-    class_weight: null
-    coef0: 0.0
-    decision_function_shape: ovr
-    degree: 3
-    gamma: 0.1
-    kernel: linear
-    max_iter: -1
-    probability: true
+    bootstrap: true
+    ccp_alpha: 0.0
+    class_weight: balanced
+    criterion: entropy
+    max_depth: 200
+    max_features: 40
+    max_leaf_nodes: null
+    max_samples: null
+    min_impurity_decrease: 0.0
+    min_samples_leaf: 1
+    min_samples_split: 2
+    min_weight_fraction_leaf: 0.0
+    n_estimators: 100
+    n_jobs: null
+    oob_score: false
     random_state: null
-    shrinking: true
-    tol: 0.001
-    verbose: false
+    verbose: 0
+    warm_start: false
   secteur: Barres cerealieres
-  type: SVM
+  type: RandomForest
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -82,10 +85,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -101,30 +104,12 @@
   secteur: Boissons Rafraichissantes Sans Alcool
   type: RandomForest
 - hyperparameters:
-    C: 1
-    break_ties: false
-    cache_size: 200
-    class_weight: null
-    coef0: 0.0
-    decision_function_shape: ovr
-    degree: 3
-    gamma: 0.1
-    kernel: linear
-    max_iter: -1
-    probability: true
-    random_state: null
-    shrinking: true
-    tol: 0.001
-    verbose: false
-  secteur: Bouillons et potages
-  type: SVM
-- hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -137,15 +122,15 @@
     random_state: null
     verbose: 0
     warm_start: false
-  secteur: Bouillons et potages_RHF
+  secteur: Bouillons et potages
   type: RandomForest
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -163,10 +148,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -184,10 +169,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -205,10 +190,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -226,10 +211,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -247,10 +232,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -268,10 +253,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -289,10 +274,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -310,10 +295,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -331,10 +316,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -352,10 +337,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -373,10 +358,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -394,10 +379,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -415,10 +400,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -434,48 +419,54 @@
   secteur: Plats cuisines ambiants
   type: RandomForest
 - hyperparameters:
-    C: 1
-    break_ties: false
-    cache_size: 200
-    class_weight: null
-    coef0: 0.0
-    decision_function_shape: ovr
-    degree: 3
-    gamma: 0.1
-    kernel: linear
-    max_iter: -1
-    probability: true
+    bootstrap: true
+    ccp_alpha: 0.0
+    class_weight: balanced
+    criterion: entropy
+    max_depth: 200
+    max_features: 40
+    max_leaf_nodes: null
+    max_samples: null
+    min_impurity_decrease: 0.0
+    min_samples_leaf: 1
+    min_samples_split: 2
+    min_weight_fraction_leaf: 0.0
+    n_estimators: 100
+    n_jobs: null
+    oob_score: false
     random_state: null
-    shrinking: true
-    tol: 0.001
-    verbose: false
+    verbose: 0
+    warm_start: false
   secteur: Plats cuisines frais
-  type: SVM
-- hyperparameters:
-    C: 1
-    break_ties: false
-    cache_size: 200
-    class_weight: null
-    coef0: 0.0
-    decision_function_shape: ovr
-    degree: 3
-    gamma: 0.1
-    kernel: linear
-    max_iter: -1
-    probability: true
-    random_state: null
-    shrinking: true
-    tol: 0.001
-    verbose: false
-  secteur: Plats cuisines surgeles
-  type: SVM
+  type: RandomForest
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
+    max_leaf_nodes: null
+    max_samples: null
+    min_impurity_decrease: 0.0
+    min_samples_leaf: 1
+    min_samples_split: 2
+    min_weight_fraction_leaf: 0.0
+    n_estimators: 100
+    n_jobs: null
+    oob_score: false
+    random_state: null
+    verbose: 0
+    warm_start: false
+  secteur: Plats cuisines surgeles
+  type: RandomForest
+- hyperparameters:
+    bootstrap: true
+    ccp_alpha: 0.0
+    class_weight: balanced
+    criterion: entropy
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -493,10 +484,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -514,10 +505,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -535,10 +526,10 @@
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -554,48 +545,12 @@
   secteur: Produits transformes a base de pomme de terre
   type: RandomForest
 - hyperparameters:
-    C: 1
-    break_ties: false
-    cache_size: 200
-    class_weight: null
-    coef0: 0.0
-    decision_function_shape: ovr
-    degree: 3
-    gamma: 0.1
-    kernel: linear
-    max_iter: -1
-    probability: true
-    random_state: null
-    shrinking: true
-    tol: 0.001
-    verbose: false
-  secteur: Sauces chaudes
-  type: SVM
-- hyperparameters:
-    C: 1
-    break_ties: false
-    cache_size: 200
-    class_weight: null
-    coef0: 0.0
-    decision_function_shape: ovr
-    degree: 3
-    gamma: 0.1
-    kernel: linear
-    max_iter: -1
-    probability: true
-    random_state: null
-    shrinking: true
-    tol: 0.001
-    verbose: false
-  secteur: Sauces condimentaires
-  type: SVM
-- hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -608,15 +563,36 @@
     random_state: null
     verbose: 0
     warm_start: false
-  secteur: Sauces condimentaires_RHF
+  secteur: Sauces chaudes
   type: RandomForest
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
+    max_leaf_nodes: null
+    max_samples: null
+    min_impurity_decrease: 0.0
+    min_samples_leaf: 1
+    min_samples_split: 2
+    min_weight_fraction_leaf: 0.0
+    n_estimators: 100
+    n_jobs: null
+    oob_score: false
+    random_state: null
+    verbose: 0
+    warm_start: false
+  secteur: Sauces condimentaires
+  type: RandomForest
+- hyperparameters:
+    bootstrap: true
+    ccp_alpha: 0.0
+    class_weight: balanced
+    criterion: entropy
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -632,30 +608,33 @@
   secteur: Sirops et boissons concentrees a diluer
   type: RandomForest
 - hyperparameters:
-    C: 1
-    break_ties: false
-    cache_size: 200
-    class_weight: null
-    coef0: 0.0
-    decision_function_shape: ovr
-    degree: 3
-    gamma: 0.1
-    kernel: linear
-    max_iter: -1
-    probability: true
+    bootstrap: true
+    ccp_alpha: 0.0
+    class_weight: balanced
+    criterion: entropy
+    max_depth: 200
+    max_features: 40
+    max_leaf_nodes: null
+    max_samples: null
+    min_impurity_decrease: 0.0
+    min_samples_leaf: 1
+    min_samples_split: 2
+    min_weight_fraction_leaf: 0.0
+    n_estimators: 100
+    n_jobs: null
+    oob_score: false
     random_state: null
-    shrinking: true
-    tol: 0.001
-    verbose: false
+    verbose: 0
+    warm_start: false
   secteur: Snacking surgele
-  type: SVM
+  type: RandomForest
 - hyperparameters:
     bootstrap: true
     ccp_alpha: 0.0
-    class_weight: null
+    class_weight: balanced
     criterion: entropy
-    max_depth: null
-    max_features: log2
+    max_depth: 200
+    max_features: 40
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0

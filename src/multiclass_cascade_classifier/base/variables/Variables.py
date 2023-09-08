@@ -98,15 +98,25 @@ RF = "RandomForest"
 # XGBoost = "XGBoost"
 
 hyperParamsGrid = {
-    SVM: {
+    # SVM: {
+    # "kernel": ["linear", "rbf", "sigmoid"],
+    # "C": [0.1, 1, 10, 100, 1000],
+    # "gamma": [10, 1, 0.1, 0.01, 0.001, 0.0001],
+    # "probability": [True,],
+    # },
+   SVM: {
     "kernel": ["linear"],
-    "C": [1],
-    "gamma": [0.1],
-    #"probability": [False,],
+    "C": [0.1],
+    "gamma": [0.1, 0.01],
+    "probability": [True,],
     },
     RF: {
-        "max_features": ["log2"],
-        "criterion": ["entropy"],
+        "max_features": ["sqrt", "log2"],
+        'bootstrap': [True],
+        'criterion' : ['entropy'],
+        'class_weight' : ['balanced'],
+        'max_depth': [200],
+        'max_features': [40],
     },
     # XGBoost: {
     #     'max_depth': [10],
@@ -122,7 +132,7 @@ hyperParamsGrid = {
     # },
 }
 
-cv = 2
+cv = 3
 n_jobs = -1
 
 training_date = "training_date"

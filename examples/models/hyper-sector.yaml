@@ -1,10 +1,10 @@
 hyperparameters:
   bootstrap: true
   ccp_alpha: 0.0
-  class_weight: null
+  class_weight: balanced
   criterion: entropy
-  max_depth: null
-  max_features: log2
+  max_depth: 200
+  max_features: 40
   max_leaf_nodes: null
   max_samples: null
   min_impurity_decrease: 0.0
@@ -17,6 +17,6 @@ hyperparameters:
   random_state: null
   verbose: 0
   warm_start: false
-training_date: 2023-09-07
-training_size: 53076
+training_date: 2023-09-08
+training_size: 52683
 type: RandomForest

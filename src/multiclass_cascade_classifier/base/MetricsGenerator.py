@@ -13,8 +13,8 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn import metrics
 
-import base.variables.Variables as var
-from base.LogJournal import LogJournal
+import multiclass_cascade_classifier.base.variables.Variables as var
+from multiclass_cascade_classifier.base.LogJournal import LogJournal
 
 
 
@@ -102,6 +102,7 @@ def generate_confusion_matrixes_family(y_pred, metrics_folder):
     
     y_pred_sector = y_pred[var.predicted_secteur]
     y_true_sector = y_pred[var.id_secteur]
+    nb_sectors = len(y_true_sector.unique())
     y_pred_family = y_pred[var.predicted_famille]
     y_true_family = y_pred[var.id_famille]
     
@@ -126,7 +127,7 @@ def generate_confusion_matrixes_family(y_pred, metrics_folder):
             df_matrix = pd.DataFrame(matrix, columns=display_labels)
             df_matrix[var.id_famille] = display_labels
             df_matrix.set_index(var.id_famille, inplace=True)
-            df_matrix.to_excel(writer_confusion_matrix, index=True, sheet_name=sector[:31])
+            df_matrix.to_excel(writer_confusion_matrix, index=True, sheet_name=sector[:nb_sectors])
 
 def generate_classification_report_sector(y_pred, metrics_folder):
     """
@@ -168,7 +169,8 @@ def generate_classification_reports_family(y_pred, metrics_folder):
     None.
 
     """
-    
+    y_true_sector = y_pred[var.id_secteur]
+    nb_sectors = len(y_true_sector.unique())
     sectors = sorted(y_pred[var.predicted_secteur].unique())
     with pd.ExcelWriter(metrics_folder + var.classification_report_family) as writer_classification_report:
         for sector in sectors:
@@ -177,4 +179,4 @@ def generate_classification_reports_family(y_pred, metrics_folder):
             y_report_pred = y_res[var.predicted_secteur]
             clf = classification_report(y_report_true, y_report_pred, output_dict=True, zero_division=0.0)
             df_clf = pd.DataFrame(clf).transpose()
-            df_clf.to_excel(writer_classification_report, index=True, sheet_name=sector[:31])
+            df_clf.to_excel(writer_classification_report, index=True, sheet_name=sector[:nb_sectors])

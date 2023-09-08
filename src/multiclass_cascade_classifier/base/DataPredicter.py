@@ -10,9 +10,9 @@ Data prediction related functions
 
 import pandas as pd
 
-import base.variables.Variables as var
-from base.ClassifierHelper import get_sector_classifier, get_all_families_classifier
-from base.FeaturesManipulator import features_truncate, features_intersection
+import multiclass_cascade_classifier.base.variables.Variables as var
+from multiclass_cascade_classifier.base.ClassifierHelper import get_sector_classifier, get_all_families_classifier
+from multiclass_cascade_classifier.base.FeaturesManipulator import features_truncate, features_intersection
 
 
 
@@ -50,7 +50,7 @@ def predict_sectors(X, models_folder):
     y_pred_probas = pd.DataFrame(y_pred_probas, columns=clf.classes_, index=X.index)
     y_pred[var.proba] = 0
     for index, row in y_pred_probas.iterrows():
-        y_pred[var.proba].loc[index] = round(sorted(row, reverse=True)[0]*100, 2)
+        y_pred.loc[index, var.proba] = round(sorted(row, reverse=True)[0]*100, 2)
     
     return y_pred
 
