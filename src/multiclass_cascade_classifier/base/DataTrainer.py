@@ -9,8 +9,8 @@ Data training related functions
 
 from pathlib import Path
 
-import multiclass_cascade_classifier.base.variables.Variables as var
-from multiclass_cascade_classifier.base.FeaturesManipulator import features_truncate
+import base.variables.Variables as var
+from base.FeaturesManipulator import features_truncate
 
 
 

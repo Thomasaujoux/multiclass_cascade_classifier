@@ -10,9 +10,9 @@ Data prediction related functions
 
 import pandas as pd
 
-import multiclass_cascade_classifier.base.variables.Variables as var
-from multiclass_cascade_classifier.base.ClassifierHelper import get_sector_classifier, get_all_families_classifier
-from multiclass_cascade_classifier.base.FeaturesManipulator import features_truncate, features_intersection
+import base.variables.Variables as var
+from base.ClassifierHelper import get_sector_classifier, get_all_families_classifier
+from base.FeaturesManipulator import features_truncate, features_intersection
 
 
 

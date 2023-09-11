@@ -4,7 +4,7 @@
 
 import click
 
-from multiclass_cascade_classifier.Skeleton import split
+from Skeleton import split
 
 def get_path(path):
     out = path.strip()

@@ -11,7 +11,7 @@ Data vectorization class
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 
-import multiclass_cascade_classifier.base.variables.Variables as var
+import base.variables.Variables as var
 
 
 

@@ -18,7 +18,7 @@ from sklearn.ensemble import RandomForestClassifier
 # from xgboost import XGBClassifier
 from sklearn.model_selection import GridSearchCV
 
-import multiclass_cascade_classifier.base.variables.Variables as var
+import base.variables.Variables as var
 
 classifiers = {
     var.SVM: SVC,

@@ -4,7 +4,7 @@
 
 import click
 
-from multiclass_cascade_classifier.Skeleton import predict
+from Skeleton import predict
 
 def get_path(path):
     out = path.strip()

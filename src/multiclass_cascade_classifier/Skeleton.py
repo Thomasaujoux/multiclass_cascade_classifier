@@ -13,14 +13,14 @@ Handles CSV files
 ### Imports ###
 import pandas as pd
 
-import multiclass_cascade_classifier.base.variables.Variables as var
-from multiclass_cascade_classifier.Scripts import check_split, check_train, check_test, check_predict, check_classifiers_train, check_classifiers_test
-from multiclass_cascade_classifier.Scripts import load_data, prepare_data, save_data, save_classifiers
-from multiclass_cascade_classifier.Scripts import prepro
-from multiclass_cascade_classifier.Scripts import select_hyperparameters, save_hyperparameters
-from multiclass_cascade_classifier.Scripts import split_train_test, train_data, test_data, test_metrics, predict_data, add_flags
+import base.variables.Variables as var
+from Scripts import check_split, check_train, check_test, check_predict, check_classifiers_train, check_classifiers_test
+from Scripts import load_data, prepare_data, save_data, save_classifiers
+from Scripts import prepro
+from Scripts import select_hyperparameters, save_hyperparameters
+from Scripts import split_train_test, train_data, test_data, test_metrics, predict_data, add_flags
 
-from multiclass_cascade_classifier.base.LogJournal import LogJournal
+from base.LogJournal import LogJournal
 
 from warnings import simplefilter
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
@@ -117,6 +117,8 @@ def train(csv_train_in, models_folder, hyper_sector_file=None, hyper_family_per_
     y_train = df_train[var.columns_label]
     sectors_diff = check_classifiers_train(y_train, hyper_family_per_sector_file, force)
     X_train = prepare_data(df_train, log_journal)
+    print(X_train)
+    print(y_train)
     ## Select hyperparameters
     clf_sector, clfs_family = select_hyperparameters(X_train, y_train, hyper_sector_file, hyper_family_per_sector_file, sectors_diff, n_jobs, log_journal)
     save_hyperparameters(models_folder, clf_sector, clfs_family, training_size, log_journal)

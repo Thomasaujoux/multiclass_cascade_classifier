@@ -10,13 +10,15 @@ DataFrame PreProcessing class
 
 import pandas as pd
 
-import multiclass_cascade_classifier.base.variables.Variables as var
+import base.variables.Variables as var
 
 
 
 def remove_colon(list
                  ):
     n = len(list)
+    if n==0 :
+        return list
     i = 1
     colonfree = list[0]
     while i < n and list[i] != ":":

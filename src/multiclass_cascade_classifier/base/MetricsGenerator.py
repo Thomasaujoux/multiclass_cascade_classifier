@@ -13,8 +13,9 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn import metrics
 
-import multiclass_cascade_classifier.base.variables.Variables as var
-from multiclass_cascade_classifier.base.LogJournal import LogJournal
+import base.variables.Variables as var
+from base.LogJournal import LogJournal
+
 
 
 
@@ -169,8 +170,9 @@ def generate_classification_reports_family(y_pred, metrics_folder):
     None.
 
     """
+    
     y_true_sector = y_pred[var.id_secteur]
-    nb_sectors = len(y_true_sector.unique())
+    nb_sectors = len(y_true_sector.unique()) 
     sectors = sorted(y_pred[var.predicted_secteur].unique())
     with pd.ExcelWriter(metrics_folder + var.classification_report_family) as writer_classification_report:
         for sector in sectors:
