@@ -11,7 +11,7 @@ This repository includes the second part of my second-year internship at ENSAE (
 More specifically, it contains the development and implementation part
 in a functional Python package, accessible from Pypi, of a cascade classifier.
 
-! To find out more about the code: take a look at the Wiki of the Wiki !
+**! To find out more about the code: take a look at the Wiki of the Wiki !**
 
 ## Project hierarchy
 
@@ -81,4 +81,4 @@ pip install multiclass_cascade_classifier
 Note: if this doesn't work, check the file name. It may change depending on the version.
 
 You can now import and use the modules in this package!
-To find out more, check out the wiki!
+**To find out more, check out the wiki!**
