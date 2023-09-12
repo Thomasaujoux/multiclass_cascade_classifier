@@ -16,6 +16,20 @@ import base.variables.Variables as var
 
 def remove_colon(list
                  ):
+    """
+    Remove the colon of a list of characters
+
+    Parameters
+    ----------
+    list : list of str
+        cell of a DataFrame
+
+    Returns
+    -------
+    list of str
+        Données sans les colons
+
+    """
     n = len(list)
     if n==0 :
         return list
@@ -28,6 +42,20 @@ def remove_colon(list
 
 def remove_punctuation(text
                        ):
+    """
+    Remove the ponctuations of a list of characters
+
+    Parameters
+    ----------
+    list : list of str
+        cell of a DataFrame
+
+    Returns
+    -------
+    list of str
+        Données sans les punctuations
+
+    """
     list_punctuation = '!"#$%&\'()+,-./;:<=>?@[\\]^_`{|}~1234567890'
     punctuationfree="".join([i for i in text if i not in list_punctuation])
     return punctuationfree #storing the puntuation free text
@@ -35,6 +63,22 @@ def remove_punctuation(text
 def CleanColumns(X,
                columns_text=[]
                 ):
+    """
+    Cleans, normalizes the dataframe
+
+    Parameters
+    ----------
+    X : pd.DataFrame
+        Base de données.
+    columns_text : List<String>, optional
+        Variables de textes (à prétraiter). The default is [].
+
+    Returns
+    -------
+    pd.DataFrame
+        Données prétraitées.
+
+    """
     for column in var.columns_ingredient_pre:
         print("We are processing column:", column)
         X[column] = X[column].str.split().map(lambda x:remove_colon(x))

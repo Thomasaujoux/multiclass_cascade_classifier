@@ -26,7 +26,7 @@ class DataVectorizer():
         
         self.TfidfVectorizer_text = TfidfVectorizer(binary=False, norm='l2',
             use_idf=True, smooth_idf=True,
-            min_df=1, max_features=300, 
+            min_df=1, max_features=1000, 
             ngram_range=(1, 2))
         
         self.TfidfVectorizer_binary = { }

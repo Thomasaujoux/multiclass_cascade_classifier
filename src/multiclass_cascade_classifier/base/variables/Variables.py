@@ -105,16 +105,16 @@ hyperParamsGrid = {
     # "probability": [True,],
     # },
    SVM: {
-    "kernel": ["linear"],
-    #"C": [0.1],
-    #"gamma": [0.1, 0.01],
+    "kernel": ["linear", "rbf", "sigmoid"],
+    #"C": [0.1, 1, 10],
+    #"gamma": [1, 0.1, 0.001],
     "probability": [True,],
     },
     RF: {
-        "max_features": ["sqrt"],
+        "max_features": ["sqrt", "log2"],
         'bootstrap': [True],
         'criterion' : ['entropy'],
-        #'class_weight' : ['balanced'],
+        'class_weight' : ['balanced'],
         #'max_depth': [200],
         #'max_features': [40],
     },
@@ -132,7 +132,7 @@ hyperParamsGrid = {
     # },
 }
 
-cv = 5
+cv = 3
 n_jobs = -1
 
 training_date = "training_date"
