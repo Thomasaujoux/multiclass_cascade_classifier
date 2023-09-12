@@ -13,7 +13,7 @@ from sklearn.svm import SVC
 from sklearn.ensemble import RandomForestClassifier
 # from xgboost import XGBClassifier
 
-import base.variables.Variables as var
+import multiclass_cascade_classifier.base.variables.Variables as var
 
 classifiers = {
     var.SVM: SVC,

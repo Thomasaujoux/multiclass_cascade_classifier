@@ -10,7 +10,7 @@ Features related functions
 
 import pandas as pd
 
-import base.variables.Variables as var
+import multiclass_cascade_classifier.base.variables.Variables as var
 
 
 

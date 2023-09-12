@@ -13,8 +13,8 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 from sklearn import metrics
 
-import base.variables.Variables as var
-from base.LogJournal import LogJournal
+import multiclass_cascade_classifier.base.variables.Variables as var
+from multiclass_cascade_classifier.base.LogJournal import LogJournal
 
 
 

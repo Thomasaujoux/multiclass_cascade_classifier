@@ -8,9 +8,9 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "multiclass_cascade_classifier"
-version = "1.0.11"
+version = "1.0.14"
 authors = [
-  { name="Thomas Aujoux", email="thomas.aujoux@gmail.com" },
+  { name="ThomasAujoux", email="thomas.aujoux@gmail.com" },
 ]
 description = "This package implements a multiclass cascade classifier for text classification in the contexte of web-scraping."
 readme = "README.md"
