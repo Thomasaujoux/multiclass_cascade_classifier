@@ -1,6 +1,8 @@
 # Implementation of a multi-class cascade classifier in a package
 
+<p align="center">
 <img src='presentation/Capture d’écran 2023-09-12 105708.png' alt="banner"></img>
+</p>
 
 ## General Presentation
 
