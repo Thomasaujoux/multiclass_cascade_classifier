@@ -8,8 +8,7 @@
 
 This repository includes the second part of my second-year internship at ENSAE (National School of Statistics and Economic Administration), which I carried out at INRAE (National Research Institute for Agriculture, Food and the Environment) over a 4-month period.
 
-More specifically, it contains the development and implementation part
-in a functional Python package, accessible from Pypi, of a cascade classifier.
+More specifically, it contains the development and implementation part in a functional Python package, accessible from Pypi, of a cascade classifier.
 
 **! To find out more about the code: take a look at the Wiki of the Wiki !**
 

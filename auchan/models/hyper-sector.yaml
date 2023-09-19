@@ -14,6 +14,6 @@ hyperparameters:
   shrinking: true
   tol: 0.001
   verbose: false
-training_date: 2023-09-12
+training_date: 2023-09-13
 training_size: 19135
 type: SVM

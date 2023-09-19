@@ -1,24 +1,21 @@
 - hyperparameters:
-    bootstrap: true
-    ccp_alpha: 0.0
-    class_weight: balanced
-    criterion: entropy
-    max_depth: null
-    max_features: log2
-    max_leaf_nodes: null
-    max_samples: null
-    min_impurity_decrease: 0.0
-    min_samples_leaf: 1
-    min_samples_split: 2
-    min_weight_fraction_leaf: 0.0
-    n_estimators: 100
-    n_jobs: null
-    oob_score: false
+    C: 1.0
+    break_ties: false
+    cache_size: 200
+    class_weight: null
+    coef0: 0.0
+    decision_function_shape: ovr
+    degree: 3
+    gamma: scale
+    kernel: linear
+    max_iter: -1
+    probability: true
     random_state: null
-    verbose: 0
-    warm_start: false
+    shrinking: true
+    tol: 0.001
+    verbose: false
   secteur: Boucherie, volaille, poissonnerie
-  type: RandomForest
+  type: SVM
 - hyperparameters:
     C: 1.0
     break_ties: false
@@ -43,7 +40,7 @@
     class_weight: balanced
     criterion: entropy
     max_depth: null
-    max_features: log2
+    max_features: sqrt
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
@@ -64,7 +61,7 @@
     class_weight: balanced
     criterion: entropy
     max_depth: null
-    max_features: log2
+    max_features: sqrt
     max_leaf_nodes: null
     max_samples: null
     min_impurity_decrease: 0.0
